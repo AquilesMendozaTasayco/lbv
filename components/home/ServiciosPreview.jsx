@@ -1,7 +1,17 @@
-import Link from "next/link";
-import { ArrowRight, Building, Users, Briefcase, Shield } from "lucide-react";
+"use client";
 
-const areas = [
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { ArrowRight, Building, Users, Briefcase, Shield, Scale, Gavel, FileText, Landmark } from "lucide-react";
+import { collection, query, orderBy, getDocs } from "firebase/firestore";
+import { db } from "@/lib/firebase";
+
+const ICONS = {
+  Building, Users, Briefcase, Shield, Scale,
+  Gavel, FileText, Landmark,
+};
+
+const fallbackAreas = [
   {
     icon: Building,
     title: "Administrativo",
@@ -25,6 +35,29 @@ const areas = [
 ];
 
 export default function ServiciosPreview() {
+  const [areas, setAreas] = useState(fallbackAreas);
+
+  useEffect(() => {
+    const fetchServicios = async () => {
+      try {
+        const q = query(collection(db, "servicios"), orderBy("orden", "asc"));
+        const snap = await getDocs(q);
+        const items = snap.docs
+          .map(d => ({ id: d.id, ...d.data() }))
+          .filter(s => s.activo !== false)
+          .map(s => ({
+            icon: ICONS[s.icono] || Building,
+            title: s.titulo,
+            desc: s.desc,
+          }));
+        if (items.length > 0) setAreas(items);
+      } catch {
+        // fallback mantiene los valores por defecto
+      }
+    };
+    fetchServicios();
+  }, []);
+
   return (
     <section className="bg-bg-alt py-12 md:py-16 xl:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">

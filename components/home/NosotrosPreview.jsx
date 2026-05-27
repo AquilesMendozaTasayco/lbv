@@ -39,11 +39,11 @@ export default function NosotrosPreview() {
           </div>
 
           <div className="order-1 lg:order-2">
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-sm">
+            <div className="relative w-full rounded-sm overflow-hidden">
               <img
                 src="/img1.png"
                 alt="LBV Abogados"
-                className="absolute inset-0 w-full h-full object-cover"
+                className="w-full h-auto object-contain"
               />
               <div className="absolute inset-0 border border-primary/10 rounded-sm pointer-events-none" />
             </div>
