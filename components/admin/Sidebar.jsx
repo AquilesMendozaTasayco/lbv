@@ -11,7 +11,7 @@ import {
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
-import Img from "next/image";
+
 
 const items = [
   { label: "Panel de Control", href: "/admin/", icon: LayoutDashboard },
@@ -64,7 +64,7 @@ export default function Sidebar() {
       {/* Logo */}
       <div className="mb-8 flex flex-col items-center overflow-hidden px-4 pt-8">
         <div className={`relative mb-4 transition-all duration-300 ${isCollapsed ? "h-10 w-10" : "h-14 w-28"}`}>
-          <Img
+          <img
             src="/logo.png"
             alt="LBV"
             width={120}

@@ -47,7 +47,7 @@ export default function ServiciosPage() {
     fetchServicios();
   }, []);
 
-  if (!loaded || areas.length === 0) return null;
+  if (!loaded) return null;
 
   return (
     <>
