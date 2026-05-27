@@ -33,7 +33,7 @@ export default function NosotrosPage() {
       <PageHero
         title="Nosotros"
         subtitle="Conozca más sobre LBV Abogados, nuestra historia y nuestro equipo"
-        bgImage="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920&q=80"
+        bgImage="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1920&q=80"
       />
 
       <section className="bg-white py-12 md:py-16 xl:py-20">
