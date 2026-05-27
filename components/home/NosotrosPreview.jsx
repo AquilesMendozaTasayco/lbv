@@ -39,7 +39,7 @@ export default function NosotrosPreview() {
           </div>
 
           <div className="order-1 lg:order-2">
-            <div className="relative w-full max-w-md mx-auto rounded-sm overflow-hidden">
+            <div className="relative w-full max-w-xs mx-auto rounded-sm overflow-hidden">
               <img
                 src="/img1.png"
                 alt="LBV Abogados"
