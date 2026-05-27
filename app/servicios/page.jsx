@@ -47,8 +47,6 @@ export default function ServiciosPage() {
     fetchServicios();
   }, []);
 
-  if (!loaded) return null;
-
   return (
     <>
       <PageHero
@@ -80,7 +78,36 @@ export default function ServiciosPage() {
             </p>
           </motion.div>
 
-          {areas.length === 0 ? (
+          {!loaded ? (
+            <div className="space-y-12 md:space-y-20">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="grid items-center gap-8 lg:grid-cols-2 lg:gap-14 animate-pulse">
+                  <div className={i % 2 === 0 ? "" : "lg:order-2"}>
+                    <div className="md:pl-6 space-y-4">
+                      <div className="h-5 w-24 bg-primary/5 rounded-full" />
+                      <div className="flex items-center gap-3 md:gap-4">
+                        <div className="h-12 w-12 md:h-14 md:w-14 rounded-full bg-primary/5" />
+                        <div className="h-8 w-40 bg-primary/5 rounded-sm" />
+                      </div>
+                      <div className="h-4 w-full bg-primary/5 rounded-sm" />
+                      <div className="h-4 w-5/6 bg-primary/5 rounded-sm" />
+                      <div className="space-y-2">
+                        {Array.from({ length: 5 }).map((_, j) => (
+                          <div key={j} className="flex items-center gap-3">
+                            <div className="h-5 w-5 md:h-6 md:w-6 rounded-full bg-primary/5" />
+                            <div className="h-3 w-3/4 bg-primary/5 rounded-sm" />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <div className={i % 2 === 0 ? "" : "lg:order-1"}>
+                    <div className="aspect-[16/12] rounded-sm bg-primary/5" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : areas.length === 0 ? (
             <div className="text-center py-20">
               <Building size={56} className="mx-auto mb-4 text-text/20" />
               <p className="font-sans text-sm text-text/40">No hay servicios disponibles</p>
