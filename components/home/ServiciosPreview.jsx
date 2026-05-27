@@ -27,6 +27,8 @@ export default function ServiciosPreview() {
             icon: ICONS[s.icono] || Building,
             title: s.titulo,
             desc: s.desc,
+            imagen: s.imagen || "",
+            color: s.color || "from-blue-900/80 to-blue-800/40",
           }));
         setAreas(items);
       } catch {
@@ -62,19 +64,27 @@ export default function ServiciosPreview() {
               return (
                 <div
                   key={i}
-                  className="group rounded-sm border border-primary/10 bg-white p-5 md:p-6 transition-all duration-300 hover:border-accent/30 hover:shadow-lg hover:-translate-y-1"
+                  className="group relative overflow-hidden rounded-sm border border-primary/10 bg-white transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
                 >
-                  <div className="mb-3 md:mb-4 flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full bg-accent/10 group-hover:bg-accent/20 transition-colors duration-300">
-                    <Icon className="h-5 w-5 md:h-6 md:w-6 text-accent" />
+                  {area.imagen && (
+                    <div className="absolute inset-0">
+                      <img src={area.imagen} alt="" className="h-full w-full object-cover" />
+                      <div className={`absolute inset-0 bg-gradient-to-t ${area.color} opacity-85`} />
+                    </div>
+                  )}
+                  <div className="relative p-5 md:p-6 min-h-[180px] flex flex-col justify-end">
+                    <div className="mb-3 md:mb-4 flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm group-hover:bg-accent/20 transition-colors duration-300">
+                      <Icon className={`h-5 w-5 md:h-6 md:w-6 ${area.imagen ? "text-white" : "text-accent"}`} />
+                    </div>
+
+                    <h3 className={`font-sans text-sm md:text-base font-bold mb-1.5 md:mb-2 ${area.imagen ? "text-white" : "text-primary"}`}>
+                      {area.title}
+                    </h3>
+
+                    <p className={`font-sans text-[10px] md:text-xs leading-relaxed ${area.imagen ? "text-white/80" : "text-text/70"}`}>
+                      {area.desc}
+                    </p>
                   </div>
-
-                  <h3 className="font-sans text-sm md:text-base font-bold text-primary mb-1.5 md:mb-2">
-                    {area.title}
-                  </h3>
-
-                  <p className="font-sans text-[10px] md:text-xs text-text/70 leading-relaxed">
-                    {area.desc}
-                  </p>
                 </div>
               );
             })}
