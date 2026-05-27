@@ -16,71 +16,9 @@ const ICONS = {
   Gavel, FileText, Landmark,
 };
 
-const fallbackAreas = [
-  {
-    icon: Building,
-    title: "Administrativo",
-    tag: "Derecho Público",
-    desc: "Asesoramos a empresas y particulares en procedimientos ante entidades públicas, con un enfoque estratégico y de cumplimiento normativo.",
-    items: [
-      "Formalización minera y concesiones",
-      "Derecho ambiental y evaluación de impacto",
-      "Saneamiento físico legal de predios",
-      "Procedimientos ante Indecopi",
-      "Contratos y concesiones públicas",
-    ],
-    bg: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80",
-    color: "from-blue-900/80 to-blue-800/40",
-  },
-  {
-    icon: Users,
-    title: "Civil",
-    tag: "Derecho Privado",
-    desc: "Brindamos asesoría integral en derecho civil y familiar, protegiendo los intereses patrimoniales y personales de nuestros clientes.",
-    items: [
-      "Derecho de familia: divorcios, tenencia, alimentos",
-      "Derecho registral y notarial",
-      "Obligaciones y contratos civiles",
-      "Nulidad de actos jurídicos",
-      "Procesos civiles en general",
-    ],
-    bg: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&q=80",
-    color: "from-emerald-900/80 to-emerald-800/40",
-  },
-  {
-    icon: Briefcase,
-    title: "Laboral",
-    tag: "Derecho del Trabajo",
-    desc: "Ofrecemos asesoría laboral preventiva y defensa en litigios, velando por el cumplimiento de los derechos de trabajadores y empleadores.",
-    items: [
-      "Asesoría en contratación laboral",
-      "Seguridad social y pensiones",
-      "Procesos laborales y despidos",
-      "Negociación colectiva",
-      "Cumplimiento normativo laboral",
-    ],
-    bg: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80",
-    color: "from-amber-900/80 to-amber-800/40",
-  },
-  {
-    icon: Shield,
-    title: "Penal",
-    tag: "Derecho Penal",
-    desc: "Defensa penal estratégica con un enfoque corporativo, protegiendo a personas y empresas en todas las etapas del proceso penal.",
-    items: [
-      "Defensa penal estratégica",
-      "Derecho penal corporativo",
-      "Litigios y juicios orales",
-      "Asesoría en compliance penal",
-      "Recursos y casaciones",
-    ],
-    bg: "https://images.unsplash.com/photo-1589391886645-d51941baf7fb?w=800&q=80",
-    color: "from-red-900/80 to-red-800/40",
-  },
-];
-
 export default function ServiciosPage() {
-  const [areas, setAreas] = useState(fallbackAreas);
+  const [areas, setAreas] = useState([]);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const fetchServicios = async () => {
@@ -99,13 +37,17 @@ export default function ServiciosPage() {
             bg: s.imagen || "",
             color: s.color || "from-blue-900/80 to-blue-800/40",
           }));
-        if (items.length > 0) setAreas(items);
+        setAreas(items);
       } catch {
-        // fallback mantiene los valores por defecto
+        setAreas([]);
+      } finally {
+        setLoaded(true);
       }
     };
     fetchServicios();
   }, []);
+
+  if (!loaded || areas.length === 0) return null;
 
   return (
     <>
@@ -138,6 +80,12 @@ export default function ServiciosPage() {
             </p>
           </motion.div>
 
+          {areas.length === 0 ? (
+            <div className="text-center py-20">
+              <Building size={56} className="mx-auto mb-4 text-text/20" />
+              <p className="font-sans text-sm text-text/40">No hay servicios disponibles</p>
+            </div>
+          ) : (
           <div className="space-y-12 md:space-y-20">
             {areas.map((area, i) => {
               const Icon = area.icon;
@@ -221,6 +169,7 @@ export default function ServiciosPage() {
               );
             })}
           </div>
+          )}
         </div>
       </section>
 

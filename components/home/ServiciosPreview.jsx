@@ -11,31 +11,9 @@ const ICONS = {
   Gavel, FileText, Landmark,
 };
 
-const fallbackAreas = [
-  {
-    icon: Building,
-    title: "Administrativo",
-    desc: "Formalización minera, ambiental, saneamiento físico legal, trámites ante Indecopi.",
-  },
-  {
-    icon: Users,
-    title: "Civil",
-    desc: "Familiar, registral, obligaciones, contratos, nulidades y procesos civiles en general.",
-  },
-  {
-    icon: Briefcase,
-    title: "Laboral",
-    desc: "Asesoría laboral, contratación, seguridad social y defensa en procesos laborales.",
-  },
-  {
-    icon: Shield,
-    title: "Penal",
-    desc: "Defensa penal estratégica, litigios y asesoría en derecho penal corporativo.",
-  },
-];
-
 export default function ServiciosPreview() {
-  const [areas, setAreas] = useState(fallbackAreas);
+  const [areas, setAreas] = useState([]);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const fetchServicios = async () => {
@@ -50,9 +28,11 @@ export default function ServiciosPreview() {
             title: s.titulo,
             desc: s.desc,
           }));
-        if (items.length > 0) setAreas(items);
+        setAreas(items);
       } catch {
-        // fallback mantiene los valores por defecto
+        setAreas([]);
+      } finally {
+        setLoaded(true);
       }
     };
     fetchServicios();
@@ -70,29 +50,36 @@ export default function ServiciosPreview() {
           </h2>
         </div>
 
-        <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {areas.map((area, i) => {
-            const Icon = area.icon;
-            return (
-              <div
-                key={i}
-                className="group rounded-sm border border-primary/10 bg-white p-5 md:p-6 transition-all duration-300 hover:border-accent/30 hover:shadow-lg hover:-translate-y-1"
-              >
-                <div className="mb-3 md:mb-4 flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full bg-accent/10 group-hover:bg-accent/20 transition-colors duration-300">
-                  <Icon className="h-5 w-5 md:h-6 md:w-6 text-accent" />
+        {areas.length === 0 ? (
+          <div className="text-center py-16">
+            <Building size={48} className="mx-auto mb-4 text-text/20" />
+            <p className="font-sans text-sm text-text/40">No hay servicios disponibles</p>
+          </div>
+        ) : (
+          <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {areas.map((area, i) => {
+              const Icon = area.icon;
+              return (
+                <div
+                  key={i}
+                  className="group rounded-sm border border-primary/10 bg-white p-5 md:p-6 transition-all duration-300 hover:border-accent/30 hover:shadow-lg hover:-translate-y-1"
+                >
+                  <div className="mb-3 md:mb-4 flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full bg-accent/10 group-hover:bg-accent/20 transition-colors duration-300">
+                    <Icon className="h-5 w-5 md:h-6 md:w-6 text-accent" />
+                  </div>
+
+                  <h3 className="font-sans text-sm md:text-base font-bold text-primary mb-1.5 md:mb-2">
+                    {area.title}
+                  </h3>
+
+                  <p className="font-sans text-[10px] md:text-xs text-text/70 leading-relaxed">
+                    {area.desc}
+                  </p>
                 </div>
-
-                <h3 className="font-sans text-sm md:text-base font-bold text-primary mb-1.5 md:mb-2">
-                  {area.title}
-                </h3>
-
-                <p className="font-sans text-[10px] md:text-xs text-text/70 leading-relaxed">
-                  {area.desc}
-                </p>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        )}
 
         <div className="mt-8 md:mt-12 text-center">
           <Link
