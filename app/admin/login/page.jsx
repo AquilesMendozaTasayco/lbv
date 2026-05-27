@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { LogIn, Eye, EyeOff, Loader2 } from "lucide-react";
-import Image from "next/image";
 import Swal from "sweetalert2";
 import { auth } from "@/lib/firebase";
 import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
@@ -72,7 +71,7 @@ export default function AdminLoginPage() {
         <div className="rounded-sm border border-white/10 bg-white/5 backdrop-blur-xl p-8 md:p-10">
           <div className="mb-8 text-center">
             <div className="mx-auto mb-4 flex items-center justify-center">
-              <Image
+              <img
                 src="/logo.png"
                 alt="LBV Abogados"
                 width={160}

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 
 const links = [
   { href: "/", label: "Inicio" },
@@ -14,7 +13,7 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-8 sm:py-10 md:py-12 xl:py-16">
         <div className="grid gap-6 sm:gap-8 md:gap-10 sm:grid-cols-2 lg:grid-cols-3">
           <div className="sm:col-span-2 lg:col-span-1">
-            <Image
+            <img
               src="/logo.png"
               alt="LBV Abogados"
               width={140}

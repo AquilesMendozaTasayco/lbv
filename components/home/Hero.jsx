@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import Image from "next/image";
 import { ChevronLeft, ChevronRight, ArrowRight, Scale } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { collection, query, orderBy, getDocs } from "firebase/firestore";
@@ -85,13 +84,10 @@ export default function Hero() {
           transition={{ duration: 0.7 }}
           className="absolute inset-0"
         >
-          <Image
+          <img
             src={slide.image}
             alt={slide.title}
-            fill
-            className="object-cover"
-            priority={current === 0}
-            loading={current === 0 ? "eager" : "lazy"}
+            className="absolute inset-0 w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
         </motion.div>
