@@ -85,7 +85,7 @@ export default function ContactoPage() {
                     <input
                       type="tel"
                       className="w-full rounded-sm border border-primary/15 bg-bg-alt px-4 py-2.5 md:py-3 font-sans text-[10px] md:text-sm text-text outline-none transition-all duration-200 focus:border-accent focus:bg-white focus:ring-1 focus:ring-accent/30"
-                      placeholder="999 888 777"
+                      placeholder="963 447 503"
                     />
                   </div>
                   <div>
@@ -162,7 +162,7 @@ export default function ContactoPage() {
                   <div>
                     <h4 className="font-sans text-xs md:text-sm font-bold text-primary">Teléfono</h4>
                     <p className="font-sans text-[10px] md:text-sm text-text/70 leading-relaxed mt-0.5">
-                      {d.telefono || "+51 999 888 777"}
+                      {d.telefono || "+51 963 447 503"}
                     </p>
                   </div>
                 </div>

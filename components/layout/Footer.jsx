@@ -1,5 +1,7 @@
+"use client";
+
 import Link from "next/link";
-import Image from "next/image";
+import { useContacto } from "@/hooks/useContacto";
 
 const links = [
   { href: "/", label: "Inicio" },
@@ -9,16 +11,16 @@ const links = [
 ];
 
 export default function Footer() {
+  const { data } = useContacto();
+
   return (
     <footer className="bg-primary text-white">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:py-10 md:py-12 xl:py-16">
         <div className="grid gap-6 sm:gap-8 md:gap-10 sm:grid-cols-2 lg:grid-cols-3">
           <div className="sm:col-span-2 lg:col-span-1">
-            <Image
+            <img
               src="/logo.png"
               alt="LBV Abogados"
-              width={140}
-              height={46}
               className="h-5 sm:h-6 md:h-7 lg:h-8 xl:h-9 2xl:h-10 w-auto mb-3 md:mb-4 brightness-0 invert"
             />
             <p className="font-sans text-xs md:text-sm leading-relaxed text-white/60 max-w-xs">
@@ -35,21 +37,21 @@ export default function Footer() {
             <ul className="space-y-2 md:space-y-3 font-sans text-xs md:text-sm text-white/60">
               <li>
                 <a
-                  href="tel:+51999888777"
+                  href={`tel:${data.telefono?.replace(/\s/g, "")}`}
                   className="transition-colors duration-300 hover:text-accent"
                 >
-                  +51 999 888 777
+                  {data.telefono || "+51 963 447 503"}
                 </a>
               </li>
               <li>
                 <a
-                  href="mailto:contacto@lbv.pe"
+                  href={`mailto:${data.email}`}
                   className="transition-colors duration-300 hover:text-accent"
                 >
-                  contacto@lbv.pe
+                  {data.email || "contacto@lbvabogados.pe"}
                 </a>
               </li>
-              <li>Av. Principal 123, San Isidro, Lima</li>
+              <li>{data.direccion ? `${data.direccion}, ${data.ciudad}` : "Av. Principal 1234, San Isidro, Lima"}</li>
             </ul>
           </div>
 

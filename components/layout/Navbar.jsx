@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
+
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -39,13 +39,10 @@ export default function Navbar() {
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-1.5 sm:py-2 md:py-2 lg:py-2 xl:py-2.5 2xl:py-3">
         <Link href="/" className="flex items-center gap-3 shrink-0">
-          <Image
+          <img
             src="/logo.png"
             alt="LBV Abogados"
-            width={180}
-            height={56}
             className="h-8 sm:h-9 md:h-10 lg:h-11 xl:h-12 2xl:h-14 w-auto brightness-0 invert"
-            priority
           />
         </Link>
 

@@ -1,12 +1,15 @@
 "use client";
 
 import { FaWhatsapp } from "react-icons/fa";
+import { useContacto } from "@/hooks/useContacto";
 
-const PHONE = "51999888777";
-const MESSAGE = "Hola, quisiera consultar con LBV Abogados";
+const DEFAULT_PHONE = "51963447503";
+const DEFAULT_MSG = "Hola, quisiera consultar con LBV Abogados";
 
 export default function WhatsAppButton() {
-  const href = `https://wa.me/${PHONE}?text=${encodeURIComponent(MESSAGE)}`;
+  const { data } = useContacto();
+  const phone = data.telefono?.replace(/\s|\+/g, "") || DEFAULT_PHONE;
+  const href = `https://wa.me/${phone}?text=${encodeURIComponent(DEFAULT_MSG)}`;
 
   return (
     <a
