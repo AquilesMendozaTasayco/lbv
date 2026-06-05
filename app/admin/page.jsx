@@ -1,11 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Scale, ArrowRight } from "lucide-react";
+import { Scale, ArrowRight, Building } from "lucide-react";
 import Link from "next/link";
 
 const modules = [
   { label: "Banners", href: "/admin/banners", desc: "Administrar carrusel del hero" },
+  { label: "Servicios", href: "/admin/servicios", desc: "Administrar áreas de práctica" },
   { label: "Contacto", href: "/admin/contacto", desc: "Editar información de contacto" },
 ];
 

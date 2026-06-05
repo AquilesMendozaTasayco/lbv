@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { LogIn, Eye, EyeOff, Loader2 } from "lucide-react";
-
 import Swal from "sweetalert2";
 import { auth } from "@/lib/firebase";
 import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";

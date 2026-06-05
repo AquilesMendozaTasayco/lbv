@@ -1,40 +1,16 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-
 import { ChevronLeft, ChevronRight, ArrowRight, Scale } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { collection, query, orderBy, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
-const fallbackSlides = [
-  {
-    id: 1,
-    image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1920&q=80",
-    title: "Excelencia Legal a su Servicio",
-    description:
-      "Asesoría legal integral en derecho administrativo, civil, laboral y penal. Soluciones eficientes y personalizadas para cada caso.",
-  },
-  {
-    id: 2,
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920&q=80",
-    title: "Confianza y Seguridad Jurídica",
-    description:
-      "Protegemos sus intereses con un enfoque estratégico y ético. Cada caso tratado con la seriedad y confidencialidad que usted merece.",
-  },
-  {
-    id: 3,
-    image: "https://images.unsplash.com/photo-1589391886645-d51941baf7fb?w=1920&q=80",
-    title: "Soluciones Legales Integrales",
-    description:
-      "Todas las ramas del derecho con un equipo multidisciplinario. Representación legal sólida y resultados concretos.",
-  },
-];
-
 export default function Hero() {
-  const [slides, setSlides] = useState(fallbackSlides);
+  const [slides, setSlides] = useState([]);
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchBanners = async () => {
@@ -51,9 +27,11 @@ export default function Hero() {
             description: b.subtitulo || "",
             cta: b.textoCta ? { text: b.textoCta, link: b.linkCta || "/contacto" } : null,
           }));
-        if (items.length > 0) setSlides(items);
+        setSlides(items);
       } catch {
-        // fallback mantiene slides por defecto
+        setSlides([]);
+      } finally {
+        setLoading(false);
       }
     };
     fetchBanners();
@@ -69,6 +47,31 @@ export default function Hero() {
   }, [paused, next]);
 
   const slide = slides[current];
+
+  if (loading) {
+    return (
+      <section className="relative h-dvh min-h-[500px] sm:min-h-[550px] w-full overflow-hidden bg-primary">
+        <div className="absolute inset-0 animate-pulse bg-primary/80">
+          <div className="h-full w-full bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
+        </div>
+        <div className="relative z-10 mx-auto flex h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+          <div className="w-full max-w-lg md:max-w-xl lg:max-w-2xl space-y-4">
+            <div className="flex items-center gap-2 md:gap-3">
+              <div className="h-8 w-8 md:h-10 md:w-10 rounded-full bg-white/10 animate-pulse" />
+              <div className="h-3 w-32 bg-white/10 animate-pulse rounded-sm" />
+            </div>
+            <div className="h-8 md:h-10 w-3/4 bg-white/10 animate-pulse rounded-sm" />
+            <div className="h-8 md:h-10 w-1/2 bg-white/10 animate-pulse rounded-sm" />
+            <div className="h-4 md:h-5 w-full max-w-md bg-white/10 animate-pulse rounded-sm" />
+            <div className="h-4 md:h-5 w-3/4 max-w-sm bg-white/10 animate-pulse rounded-sm" />
+            <div className="h-10 md:h-12 w-40 bg-white/10 animate-pulse rounded-sm" />
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (!slides.length) return null;
 
   return (
     <section

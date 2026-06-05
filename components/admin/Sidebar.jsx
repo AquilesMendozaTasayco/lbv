@@ -6,7 +6,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import {
   LayoutDashboard, LogOut, ChevronRight, ChevronLeft,
-  Image as ImageIcon, MapPin,
+  Image as ImageIcon, MapPin, Briefcase,
 } from "lucide-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -16,6 +16,7 @@ import Swal from "sweetalert2";
 const items = [
   { label: "Panel de Control", href: "/admin/", icon: LayoutDashboard },
   { label: "Banners", href: "/admin/banners", icon: ImageIcon },
+  { label: "Servicios", href: "/admin/servicios", icon: Briefcase },
   { label: "Contacto", href: "/admin/contacto", icon: MapPin },
 ];
 

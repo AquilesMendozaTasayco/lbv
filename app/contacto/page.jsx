@@ -29,7 +29,7 @@ export default function ContactoPage() {
       <PageHero
         title="Contacto"
         subtitle="Estamos listos para atenderlo. Contáctenos y recibirá asesoría legal personalizada"
-        bgImage="https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=1920&q=80"
+        bgImage="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1920&q=80"
       />
 
       <section className="bg-white py-12 md:py-16 xl:py-20">

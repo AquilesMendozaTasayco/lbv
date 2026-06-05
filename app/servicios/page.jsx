@@ -1,77 +1,52 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import {
   Building, Users, Briefcase, Shield, Scale,
   FileText, Gavel, Landmark, ArrowRight, Check,
 } from "lucide-react";
+import { collection, query, orderBy, getDocs } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 import PageHero from "@/components/ui/PageHero";
 
-const areas = [
-  {
-    icon: Building,
-    title: "Administrativo",
-    tag: "Derecho Público",
-    desc: "Asesoramos a empresas y particulares en procedimientos ante entidades públicas, con un enfoque estratégico y de cumplimiento normativo.",
-    items: [
-      "Formalización minera y concesiones",
-      "Derecho ambiental y evaluación de impacto",
-      "Saneamiento físico legal de predios",
-      "Procedimientos ante Indecopi",
-      "Contratos y concesiones públicas",
-    ],
-    bg: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80",
-    color: "from-blue-900/80 to-blue-800/40",
-  },
-  {
-    icon: Users,
-    title: "Civil",
-    tag: "Derecho Privado",
-    desc: "Brindamos asesoría integral en derecho civil y familiar, protegiendo los intereses patrimoniales y personales de nuestros clientes.",
-    items: [
-      "Derecho de familia: divorcios, tenencia, alimentos",
-      "Derecho registral y notarial",
-      "Obligaciones y contratos civiles",
-      "Nulidad de actos jurídicos",
-      "Procesos civiles en general",
-    ],
-    bg: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&q=80",
-    color: "from-emerald-900/80 to-emerald-800/40",
-  },
-  {
-    icon: Briefcase,
-    title: "Laboral",
-    tag: "Derecho del Trabajo",
-    desc: "Ofrecemos asesoría laboral preventiva y defensa en litigios, velando por el cumplimiento de los derechos de trabajadores y empleadores.",
-    items: [
-      "Asesoría en contratación laboral",
-      "Seguridad social y pensiones",
-      "Procesos laborales y despidos",
-      "Negociación colectiva",
-      "Cumplimiento normativo laboral",
-    ],
-    bg: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80",
-    color: "from-amber-900/80 to-amber-800/40",
-  },
-  {
-    icon: Shield,
-    title: "Penal",
-    tag: "Derecho Penal",
-    desc: "Defensa penal estratégica con un enfoque corporativo, protegiendo a personas y empresas en todas las etapas del proceso penal.",
-    items: [
-      "Defensa penal estratégica",
-      "Derecho penal corporativo",
-      "Litigios y juicios orales",
-      "Asesoría en compliance penal",
-      "Recursos y casaciones",
-    ],
-    bg: "https://images.unsplash.com/photo-1589391886645-d51941baf7fb?w=800&q=80",
-    color: "from-red-900/80 to-red-800/40",
-  },
-];
+const ICONS = {
+  Building, Users, Briefcase, Shield, Scale,
+  Gavel, FileText, Landmark,
+};
 
 export default function ServiciosPage() {
+  const [areas, setAreas] = useState([]);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    const fetchServicios = async () => {
+      try {
+        const q = query(collection(db, "servicios"), orderBy("orden", "asc"));
+        const snap = await getDocs(q);
+        const items = snap.docs
+          .map(d => ({ id: d.id, ...d.data() }))
+          .filter(s => s.activo !== false)
+          .map(s => ({
+            icon: ICONS[s.icono] || Building,
+            title: s.titulo,
+            tag: s.tag || "",
+            desc: s.desc || "",
+            items: s.items || [],
+            bg: s.imagen || "",
+            color: s.color || "from-blue-900/80 to-blue-800/40",
+          }));
+        setAreas(items);
+      } catch {
+        setAreas([]);
+      } finally {
+        setLoaded(true);
+      }
+    };
+    fetchServicios();
+  }, []);
+
   return (
     <>
       <PageHero
@@ -103,6 +78,41 @@ export default function ServiciosPage() {
             </p>
           </motion.div>
 
+          {!loaded ? (
+            <div className="space-y-12 md:space-y-20">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="grid items-center gap-8 lg:grid-cols-2 lg:gap-14 animate-pulse">
+                  <div className={i % 2 === 0 ? "" : "lg:order-2"}>
+                    <div className="md:pl-6 space-y-4">
+                      <div className="h-5 w-24 bg-primary/5 rounded-full" />
+                      <div className="flex items-center gap-3 md:gap-4">
+                        <div className="h-12 w-12 md:h-14 md:w-14 rounded-full bg-primary/5" />
+                        <div className="h-8 w-40 bg-primary/5 rounded-sm" />
+                      </div>
+                      <div className="h-4 w-full bg-primary/5 rounded-sm" />
+                      <div className="h-4 w-5/6 bg-primary/5 rounded-sm" />
+                      <div className="space-y-2">
+                        {Array.from({ length: 5 }).map((_, j) => (
+                          <div key={j} className="flex items-center gap-3">
+                            <div className="h-5 w-5 md:h-6 md:w-6 rounded-full bg-primary/5" />
+                            <div className="h-3 w-3/4 bg-primary/5 rounded-sm" />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <div className={i % 2 === 0 ? "" : "lg:order-1"}>
+                    <div className="aspect-[16/12] rounded-sm bg-primary/5" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : areas.length === 0 ? (
+            <div className="text-center py-20">
+              <Building size={56} className="mx-auto mb-4 text-text/20" />
+              <p className="font-sans text-sm text-text/40">No hay servicios disponibles</p>
+            </div>
+          ) : (
           <div className="space-y-12 md:space-y-20">
             {areas.map((area, i) => {
               const Icon = area.icon;
@@ -121,9 +131,11 @@ export default function ServiciosPage() {
                     <div className={`relative ${isEven ? "" : "lg:order-2"}`}>
                       <div className="absolute left-0 top-0 h-full w-0.5 bg-accent/40 rounded-full hidden md:block" />
                       <div className="md:pl-6">
-                        <span className="font-sans text-[7px] md:text-[8px] uppercase tracking-[0.25em] text-accent font-semibold bg-accent/10 px-3 py-1 rounded-full inline-block mb-3">
-                          {area.tag}
-                        </span>
+                        {area.tag && (
+                          <span className="font-sans text-[7px] md:text-[8px] uppercase tracking-[0.25em] text-accent font-semibold bg-accent/10 px-3 py-1 rounded-full inline-block mb-3">
+                            {area.tag}
+                          </span>
+                        )}
                         <div className="flex items-center gap-3 md:gap-4 mb-4 md:mb-5">
                           <div className="flex h-12 w-12 md:h-14 md:w-14 shrink-0 items-center justify-center rounded-full bg-accent/10 shadow-sm">
                             <Icon className="h-6 w-6 md:h-7 md:w-7 text-accent" />
@@ -135,45 +147,56 @@ export default function ServiciosPage() {
                         <p className="font-sans text-[10px] sm:text-xs md:text-sm text-text/70 leading-relaxed mb-5 md:mb-6">
                           {area.desc}
                         </p>
-                        <ul className="space-y-2.5 md:space-y-3">
-                          {area.items.map((item, j) => (
-                            <li key={j} className="flex items-start gap-3">
-                              <div className="mt-0.5 flex h-5 w-5 md:h-6 md:w-6 shrink-0 items-center justify-center rounded-full bg-accent/10">
-                                <Check className="h-3 w-3 md:h-3.5 md:w-3.5 text-accent" />
-                              </div>
-                              <span className="font-sans text-[10px] sm:text-xs md:text-sm text-text/70 leading-relaxed pt-0.5">
-                                {item}
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
+                        {area.items.length > 0 && (
+                          <ul className="space-y-2.5 md:space-y-3">
+                            {area.items.map((item, j) => (
+                              <li key={j} className="flex items-start gap-3">
+                                <div className="mt-0.5 flex h-5 w-5 md:h-6 md:w-6 shrink-0 items-center justify-center rounded-full bg-accent/10">
+                                  <Check className="h-3 w-3 md:h-3.5 md:w-3.5 text-accent" />
+                                </div>
+                                <span className="font-sans text-[10px] sm:text-xs md:text-sm text-text/70 leading-relaxed pt-0.5">
+                                  {item}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
                       </div>
                     </div>
 
                     {/* IMAGE */}
                     <div className={`relative ${isEven ? "" : "lg:order-1"}`}>
-                      <div className="group relative overflow-hidden rounded-sm shadow-lg">
-                        <div
-                          className={`aspect-[16/12] bg-cover bg-center bg-no-repeat transition-transform duration-700 group-hover:scale-105`}
-                          style={{ backgroundImage: `url(${area.bg})` }}
-                        />
-                        <div className={`absolute inset-0 bg-gradient-to-t ${area.color} opacity-60`} />
-                        <div className="absolute inset-0 border border-primary/10 rounded-sm pointer-events-none" />
-                        <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6">
-                          <span className="font-sans text-[8px] md:text-[10px] uppercase tracking-[0.2em] text-white/80 font-semibold">
-                            {area.tag}
-                          </span>
-                          <h4 className="font-sans text-sm sm:text-base md:text-lg font-bold text-white mt-0.5">
-                            {area.title}
-                          </h4>
+                      {area.bg ? (
+                        <div className="group relative overflow-hidden rounded-sm shadow-lg">
+                          <div
+                            className="aspect-[16/12] bg-cover bg-center bg-no-repeat transition-transform duration-700 group-hover:scale-105"
+                            style={{ backgroundImage: `url(${area.bg})` }}
+                          />
+                          <div className={`absolute inset-0 bg-gradient-to-t ${area.color} opacity-60`} />
+                          <div className="absolute inset-0 border border-primary/10 rounded-sm pointer-events-none" />
+                          <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6">
+                            {area.tag && (
+                              <span className="font-sans text-[8px] md:text-[10px] uppercase tracking-[0.2em] text-white/80 font-semibold">
+                                {area.tag}
+                              </span>
+                            )}
+                            <h4 className="font-sans text-sm sm:text-base md:text-lg font-bold text-white mt-0.5">
+                              {area.title}
+                            </h4>
+                          </div>
                         </div>
-                      </div>
+                      ) : (
+                        <div className="flex aspect-[16/12] items-center justify-center rounded-sm bg-bg-alt border border-primary/10">
+                          <Icon size={64} className="text-text/20" />
+                        </div>
+                      )}
                     </div>
                   </div>
                 </motion.div>
               );
             })}
           </div>
+          )}
         </div>
       </section>
 
