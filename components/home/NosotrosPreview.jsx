@@ -1,7 +1,25 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
+const slides = [
+  "/images/img6.jpg",
+  "/images/img7.jpg",
+  "/images/img8.jpg",
+];
+
 export default function NosotrosPreview() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setCurrentSlide(s => (s + 1) % slides.length);
+    }, 5000);
+    return () => clearInterval(id);
+  }, []);
+
   return (
     <section className="bg-white py-12 md:py-16 xl:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
@@ -40,12 +58,27 @@ export default function NosotrosPreview() {
 
           <div className="order-1 lg:order-2">
             <div className="relative aspect-[4/3] w-full overflow-hidden rounded-sm bg-bg-alt">
-              <img
-                src="/img1.png"
-                alt="LBV Abogados"
-                className="absolute inset-0 w-full h-full object-contain"
-              />
+              {slides.map((src, i) => (
+                <img
+                  key={i}
+                  src={src}
+                  alt="LBV Abogados"
+                  className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000"
+                  style={{ opacity: currentSlide === i ? 1 : 0 }}
+                />
+              ))}
               <div className="absolute inset-0 border border-primary/10 rounded-sm pointer-events-none" />
+              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex gap-2">
+                {slides.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setCurrentSlide(i)}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      i === currentSlide ? "w-6 bg-accent" : "w-1.5 bg-white/50"
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>

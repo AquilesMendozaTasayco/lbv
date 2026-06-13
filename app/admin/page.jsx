@@ -1,12 +1,16 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Scale, ArrowRight, Building } from "lucide-react";
+import { Scale, ArrowRight, Building, FileText, Newspaper, Users, Inbox } from "lucide-react";
 import Link from "next/link";
 
 const modules = [
   { label: "Banners", href: "/admin/banners", desc: "Administrar carrusel del hero" },
   { label: "Servicios", href: "/admin/servicios", desc: "Administrar áreas de práctica" },
+  { label: "Equipo", href: "/admin/equipo", desc: "Gestionar abogados del estudio" },
+  { label: "Publicaciones", href: "/admin/publicaciones", desc: "Artículos, guías y contenido legal" },
+  { label: "Noticias", href: "/admin/noticias", desc: "Noticias del estudio y ámbito legal" },
+  { label: "Postulaciones", href: "/admin/postulaciones", desc: "CVs recibidos de candidatos" },
   { label: "Contacto", href: "/admin/contacto", desc: "Editar información de contacto" },
 ];
 

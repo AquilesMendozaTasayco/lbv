@@ -107,15 +107,6 @@ export default function Hero() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="w-full max-w-lg md:max-w-xl lg:max-w-2xl"
           >
-            <div className="mb-3 md:mb-4 flex items-center gap-2 md:gap-3">
-              <div className="flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full bg-accent/20 backdrop-blur-sm border border-accent/40">
-                <Scale className="h-4 w-4 md:h-5 md:w-5 text-accent" />
-              </div>
-              <span className="font-sans text-[8px] md:text-[10px] uppercase tracking-[0.15em] md:tracking-[0.2em] text-accent font-semibold">
-                Estudio Jurídico
-              </span>
-            </div>
-
             <h1 className="font-sans text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white mb-2 md:mb-3 drop-shadow-lg leading-tight">
               {slide.title}
             </h1>

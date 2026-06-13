@@ -3,19 +3,24 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import SearchOverlay from "./SearchOverlay";
 
 const links = [
   { href: "/", label: "Inicio" },
   { href: "/nosotros", label: "Nosotros" },
+  { href: "/equipo", label: "Equipo" },
   { href: "/servicios", label: "Servicios" },
+  { href: "/noticias", label: "Noticias" },
+  { href: "/publicaciones", label: "Publicaciones LBV" },
   { href: "/contacto", label: "Contacto" },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const pathname = usePathname();
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -41,7 +46,7 @@ export default function Navbar() {
           <img
             src="/logo.png"
             alt="LBV Abogados"
-            className="h-8 sm:h-9 md:h-10 lg:h-11 xl:h-12 2xl:h-14 w-auto brightness-0 invert"
+            className="h-9 sm:h-10 md:h-12 lg:h-14 xl:h-16 2xl:h-18 w-auto brightness-0 invert"
           />
         </Link>
 
@@ -54,6 +59,15 @@ export default function Navbar() {
         </button>
 
         <ul className="hidden items-center gap-2 lg:gap-3 xl:gap-4 2xl:gap-6 lg:flex">
+          <li>
+            <button
+              onClick={() => setSearchOpen(true)}
+              className="flex items-center justify-center p-1.5 text-white/70 hover:text-accent transition-colors"
+              aria-label="Buscar"
+            >
+              <Search size={15} className="xl:h-4 xl:w-4 2xl:h-[18px] 2xl:w-[18px]" />
+            </button>
+          </li>
           {links.map(({ href, label }) => {
             const isActive = pathname === href;
             return (
@@ -77,6 +91,8 @@ export default function Navbar() {
         </ul>
       </div>
 
+      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
+
       <AnimatePresence>
         {open && (
           <motion.div
@@ -88,6 +104,15 @@ export default function Navbar() {
             className="overflow-hidden border-t border-white/10 bg-primary lg:hidden"
           >
             <ul className="flex flex-col px-4 py-3 gap-2">
+              <li>
+                <button
+                  onClick={() => { setOpen(false); setSearchOpen(true); }}
+                  className="flex w-full items-center gap-3 font-sans text-[10px] md:text-xs font-semibold uppercase tracking-widest text-white/60 hover:text-accent transition-colors"
+                >
+                  <Search size={14} />
+                  Buscar
+                </button>
+              </li>
               {links.map(({ href, label }) => {
                 const isActive = pathname === href;
                 return (

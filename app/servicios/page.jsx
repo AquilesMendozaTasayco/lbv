@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import {
   Building, Users, Briefcase, Shield, Scale,
-  FileText, Gavel, Landmark, ArrowRight, Check,
+  FileText, Gavel, Landmark, ArrowRight,
 } from "lucide-react";
 import { collection, query, orderBy, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
@@ -15,6 +15,10 @@ const ICONS = {
   Building, Users, Briefcase, Shield, Scale,
   Gavel, FileText, Landmark,
 };
+
+function slugify(text) {
+  return text.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
+}
 
 export default function ServiciosPage() {
   const [areas, setAreas] = useState([]);
@@ -36,6 +40,7 @@ export default function ServiciosPage() {
             items: s.items || [],
             bg: s.imagen || "",
             color: s.color || "from-blue-900/80 to-blue-800/40",
+            slug: slugify(s.titulo),
           }));
         setAreas(items);
       } catch {
@@ -64,12 +69,6 @@ export default function ServiciosPage() {
             transition={{ duration: 0.5, ease: "easeOut" }}
             className="mb-10 md:mb-16 text-center"
           >
-            <div className="mx-auto flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-full bg-accent/10">
-              <Scale className="h-6 w-6 md:h-7 md:w-7 text-accent" />
-            </div>
-            <span className="font-sans text-[8px] md:text-[10px] uppercase tracking-[0.2em] text-accent font-semibold">
-              Nuestra Experiencia
-            </span>
             <h2 className="font-sans text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary mt-2 leading-tight">
               Áreas de práctica
             </h2>
@@ -79,30 +78,14 @@ export default function ServiciosPage() {
           </motion.div>
 
           {!loaded ? (
-            <div className="space-y-12 md:space-y-20">
+            <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-4">
               {Array.from({ length: 4 }).map((_, i) => (
-                <div key={i} className="grid items-center gap-8 lg:grid-cols-2 lg:gap-14 animate-pulse">
-                  <div className={i % 2 === 0 ? "" : "lg:order-2"}>
-                    <div className="md:pl-6 space-y-4">
-                      <div className="h-5 w-24 bg-primary/5 rounded-full" />
-                      <div className="flex items-center gap-3 md:gap-4">
-                        <div className="h-12 w-12 md:h-14 md:w-14 rounded-full bg-primary/5" />
-                        <div className="h-8 w-40 bg-primary/5 rounded-sm" />
-                      </div>
-                      <div className="h-4 w-full bg-primary/5 rounded-sm" />
-                      <div className="h-4 w-5/6 bg-primary/5 rounded-sm" />
-                      <div className="space-y-2">
-                        {Array.from({ length: 5 }).map((_, j) => (
-                          <div key={j} className="flex items-center gap-3">
-                            <div className="h-5 w-5 md:h-6 md:w-6 rounded-full bg-primary/5" />
-                            <div className="h-3 w-3/4 bg-primary/5 rounded-sm" />
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                  <div className={i % 2 === 0 ? "" : "lg:order-1"}>
-                    <div className="aspect-[16/12] rounded-sm bg-primary/5" />
+                <div key={i} className="rounded-sm border border-primary/10 bg-white animate-pulse">
+                  <div className="h-44 bg-primary/5" />
+                  <div className="p-5 space-y-3">
+                    <div className="h-10 w-10 rounded-full bg-primary/5" />
+                    <div className="h-4 w-3/4 bg-primary/5 rounded-sm" />
+                    <div className="h-3 w-full bg-primary/5 rounded-sm" />
                   </div>
                 </div>
               ))}
@@ -113,89 +96,62 @@ export default function ServiciosPage() {
               <p className="font-sans text-sm text-text/40">No hay servicios disponibles</p>
             </div>
           ) : (
-          <div className="space-y-12 md:space-y-20">
-            {areas.map((area, i) => {
-              const Icon = area.icon;
-              const isEven = i % 2 === 0;
-
-              return (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-80px" }}
-                  transition={{ duration: 0.6, ease: "easeOut", delay: i * 0.1 }}
-                >
-                  <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
-                    {/* TEXT */}
-                    <div className={`relative ${isEven ? "" : "lg:order-2"}`}>
-                      <div className="absolute left-0 top-0 h-full w-0.5 bg-accent/40 rounded-full hidden md:block" />
-                      <div className="md:pl-6">
-                        {area.tag && (
-                          <span className="font-sans text-[7px] md:text-[8px] uppercase tracking-[0.25em] text-accent font-semibold bg-accent/10 px-3 py-1 rounded-full inline-block mb-3">
-                            {area.tag}
-                          </span>
-                        )}
-                        <div className="flex items-center gap-3 md:gap-4 mb-4 md:mb-5">
-                          <div className="flex h-12 w-12 md:h-14 md:w-14 shrink-0 items-center justify-center rounded-full bg-accent/10 shadow-sm">
-                            <Icon className="h-6 w-6 md:h-7 md:w-7 text-accent" />
-                          </div>
-                          <h3 className="font-sans text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary leading-tight">
-                            {area.title}
-                          </h3>
-                        </div>
-                        <p className="font-sans text-[10px] sm:text-xs md:text-sm text-text/70 leading-relaxed mb-5 md:mb-6">
-                          {area.desc}
-                        </p>
-                        {area.items.length > 0 && (
-                          <ul className="space-y-2.5 md:space-y-3">
-                            {area.items.map((item, j) => (
-                              <li key={j} className="flex items-start gap-3">
-                                <div className="mt-0.5 flex h-5 w-5 md:h-6 md:w-6 shrink-0 items-center justify-center rounded-full bg-accent/10">
-                                  <Check className="h-3 w-3 md:h-3.5 md:w-3.5 text-accent" />
-                                </div>
-                                <span className="font-sans text-[10px] sm:text-xs md:text-sm text-text/70 leading-relaxed pt-0.5">
-                                  {item}
-                                </span>
-                              </li>
-                            ))}
-                          </ul>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* IMAGE */}
-                    <div className={`relative ${isEven ? "" : "lg:order-1"}`}>
+            <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-4">
+              {areas.map((area, i) => {
+                const Icon = area.icon;
+                return (
+                  <motion.div
+                    key={area.slug}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-80px" }}
+                    transition={{ duration: 0.5, ease: "easeOut", delay: i * 0.1 }}
+                  >
+                    <Link
+                      href={`/servicios/${area.slug}`}
+                      className="group relative block overflow-hidden rounded-sm border border-primary/10 bg-white shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+                    >
                       {area.bg ? (
-                        <div className="group relative overflow-hidden rounded-sm shadow-lg">
+                        <div className="relative h-44 overflow-hidden">
                           <div
-                            className="aspect-[16/12] bg-cover bg-center bg-no-repeat transition-transform duration-700 group-hover:scale-105"
+                            className="h-full w-full bg-cover bg-center bg-no-repeat transition-transform duration-500 group-hover:scale-105"
                             style={{ backgroundImage: `url(${area.bg})` }}
                           />
                           <div className={`absolute inset-0 bg-gradient-to-t ${area.color} opacity-60`} />
-                          <div className="absolute inset-0 border border-primary/10 rounded-sm pointer-events-none" />
-                          <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6">
-                            {area.tag && (
-                              <span className="font-sans text-[8px] md:text-[10px] uppercase tracking-[0.2em] text-white/80 font-semibold">
-                                {area.tag}
-                              </span>
-                            )}
-                            <h4 className="font-sans text-sm sm:text-base md:text-lg font-bold text-white mt-0.5">
-                              {area.title}
-                            </h4>
-                          </div>
                         </div>
                       ) : (
-                        <div className="flex aspect-[16/12] items-center justify-center rounded-sm bg-bg-alt border border-primary/10">
+                        <div className="flex h-44 items-center justify-center bg-bg-alt">
                           <Icon size={64} className="text-text/20" />
                         </div>
                       )}
-                    </div>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
+
+                      <div className="p-5 md:p-6">
+                        <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-accent/10 group-hover:bg-accent/20 transition-colors">
+                          <Icon className="h-5 w-5 text-accent" />
+                        </div>
+                        <h3 className="font-sans text-sm md:text-base font-bold text-primary">
+                          {area.title}
+                        </h3>
+                      </div>
+
+                      <div className="absolute inset-0 flex items-end bg-gradient-to-t from-primary/95 via-primary/70 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                        <div className="p-5 md:p-6">
+                          <span className="font-sans text-[8px] uppercase tracking-[0.2em] text-accent font-semibold">
+                            {area.tag}
+                          </span>
+                          <p className="font-sans text-[10px] md:text-xs text-white/80 leading-relaxed mt-1 line-clamp-3">
+                            {area.desc}
+                          </p>
+                          <span className="mt-3 inline-flex items-center gap-1 font-sans text-[9px] font-bold uppercase tracking-wider text-accent">
+                            Ver más <ArrowRight size={10} />
+                          </span>
+                        </div>
+                      </div>
+                    </Link>
+                  </motion.div>
+                );
+              })}
+            </div>
           )}
         </div>
       </section>

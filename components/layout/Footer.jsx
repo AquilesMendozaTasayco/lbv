@@ -21,7 +21,7 @@ export default function Footer() {
             <img
               src="/logo.png"
               alt="LBV Abogados"
-              className="h-5 sm:h-6 md:h-7 lg:h-8 xl:h-9 2xl:h-10 w-auto mb-3 md:mb-4 brightness-0 invert"
+              className="h-7 sm:h-8 md:h-9 lg:h-10 xl:h-12 2xl:h-14 w-auto mb-3 md:mb-4 brightness-0 invert"
             />
             <p className="font-sans text-xs md:text-sm leading-relaxed text-white/60 max-w-xs">
               Estudio de abogados con amplia experiencia en derecho

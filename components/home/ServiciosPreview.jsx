@@ -11,6 +11,10 @@ const ICONS = {
   Gavel, FileText, Landmark,
 };
 
+function slugify(text) {
+  return text.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
+}
+
 export default function ServiciosPreview() {
   const [areas, setAreas] = useState([]);
   const [loaded, setLoaded] = useState(false);
@@ -29,6 +33,7 @@ export default function ServiciosPreview() {
             desc: s.desc,
             imagen: s.imagen || "",
             color: s.color || "from-blue-900/80 to-blue-800/40",
+            slug: slugify(s.titulo),
           }));
         setAreas(items);
       } catch {
@@ -76,13 +81,14 @@ export default function ServiciosPreview() {
             {areas.map((area, i) => {
               const Icon = area.icon;
               return (
-                <div
-                  key={i}
+                <Link
+                  key={area.slug}
+                  href={`/servicios/${area.slug}`}
                   className="group rounded-sm border border-primary/10 bg-white transition-all duration-300 hover:shadow-lg hover:-translate-y-1 overflow-hidden"
                 >
                   {area.imagen && (
                     <div className="h-32 overflow-hidden">
-                      <img src={area.imagen} alt="" className="h-full w-full object-cover" />
+                      <img src={area.imagen} alt="" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
                     </div>
                   )}
                   <div className="p-5 md:p-6">
@@ -98,7 +104,7 @@ export default function ServiciosPreview() {
                       {area.desc}
                     </p>
                   </div>
-                </div>
+                </Link>
               );
             })}
           </div>

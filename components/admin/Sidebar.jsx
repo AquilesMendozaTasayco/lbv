@@ -6,7 +6,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import {
   LayoutDashboard, LogOut, ChevronRight, ChevronLeft,
-  Image as ImageIcon, MapPin, Briefcase,
+  Image as ImageIcon, MapPin, Briefcase, FileText, Newspaper, Users, Inbox,
 } from "lucide-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -17,6 +17,10 @@ const items = [
   { label: "Panel de Control", href: "/admin/", icon: LayoutDashboard },
   { label: "Banners", href: "/admin/banners", icon: ImageIcon },
   { label: "Servicios", href: "/admin/servicios", icon: Briefcase },
+  { label: "Equipo", href: "/admin/equipo", icon: Users },
+  { label: "Publicaciones", href: "/admin/publicaciones", icon: FileText },
+  { label: "Noticias", href: "/admin/noticias", icon: Newspaper },
+  { label: "Postulaciones", href: "/admin/postulaciones", icon: Inbox },
   { label: "Contacto", href: "/admin/contacto", icon: MapPin },
 ];
 
@@ -63,7 +67,7 @@ export default function Sidebar() {
 
       {/* Logo */}
       <div className="mb-8 flex flex-col items-center overflow-hidden px-4 pt-8">
-        <div className={`relative mb-4 transition-all duration-300 ${isCollapsed ? "h-10 w-10" : "h-14 w-28"}`}>
+        <div className={`relative mb-4 transition-all duration-300 ${isCollapsed ? "h-10 w-10" : "h-20 w-40"}`}>
           <img
             src="/logo.png"
             alt="LBV"
