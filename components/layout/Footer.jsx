@@ -40,7 +40,7 @@ export default function Footer() {
                   href={`tel:${data.telefono?.replace(/\s/g, "")}`}
                   className="transition-colors duration-300 hover:text-accent"
                 >
-                  {data.telefono || "+51 963 447 503"}
+                  {data.telefono || "+51 989 592 806"}
                 </a>
               </li>
               <li>

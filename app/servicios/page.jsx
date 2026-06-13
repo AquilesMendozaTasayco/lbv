@@ -57,7 +57,7 @@ export default function ServiciosPage() {
       <PageHero
         title="Servicios"
         subtitle="Conozca nuestras áreas de práctica y el alcance de nuestra asesoría legal especializada"
-        bgImage="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1920&q=80"
+        bgImage="/images/img2.jpg"
       />
 
       <section className="py-12 md:py-16 xl:py-20">
@@ -161,7 +161,7 @@ export default function ServiciosPage() {
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage:
-              "url(https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1920&q=80)",
+              "url(/images/img3.jpg)",
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/80 to-primary/60" />

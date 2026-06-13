@@ -7,7 +7,7 @@ export default function PageHero({ title, subtitle, bgImage }) {
     <section className="relative flex min-h-[300px] sm:min-h-[340px] md:min-h-[400px] items-center justify-center overflow-hidden bg-primary pt-16">
       {bgImage && (
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${bgImage})` }}
         />
       )}

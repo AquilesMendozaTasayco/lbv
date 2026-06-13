@@ -62,7 +62,7 @@ export default function EquipoPage() {
       <PageHero
         title="Equipo"
         subtitle="Conozca a los profesionales que conforman LBV Abogados"
-        bgImage="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920&q=80"
+        bgImage="/images/img8.jpg"
       />
 
       <section className="py-12 md:py-16 xl:py-20">

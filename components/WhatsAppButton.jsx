@@ -3,7 +3,7 @@
 import { FaWhatsapp } from "react-icons/fa";
 import { useContacto } from "@/hooks/useContacto";
 
-const DEFAULT_PHONE = "51963447503";
+const DEFAULT_PHONE = "51989592806";
 const DEFAULT_MSG = "Hola, quisiera consultar con LBV Abogados";
 
 export default function WhatsAppButton() {

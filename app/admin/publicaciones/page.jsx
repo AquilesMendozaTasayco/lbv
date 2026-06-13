@@ -52,6 +52,7 @@ export default function AdminPublicacionesPage() {
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState(EMPTY);
   const [uploading, setUploading] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => { fetchData(); }, []);
 
@@ -120,6 +121,7 @@ export default function AdminPublicacionesPage() {
       Swal.fire({ icon: "warning", title: "Título requerido", text: "La publicación necesita un título." });
       return;
     }
+    setSaving(true);
     try {
       const payload = {
         titulo: form.titulo.trim(),
@@ -143,7 +145,7 @@ export default function AdminPublicacionesPage() {
       fetchData();
     } catch (e) {
       Swal.fire({ icon: "error", title: "Error al guardar", text: e.message });
-    }
+    } finally { setSaving(false); }
   };
 
   const handleToggle = async (item) => {
@@ -414,6 +416,7 @@ export default function AdminPublicacionesPage() {
                   <RichEditor
                     content={form.contenido}
                     onChange={(html) => setForm(p => ({ ...p, contenido: html }))}
+                    uploadImage={uploadImage}
                   />
                 </div>
 
@@ -447,10 +450,14 @@ export default function AdminPublicacionesPage() {
                   className="flex-1 rounded-sm border border-primary/10 bg-white px-6 py-3 font-sans text-sm font-semibold text-text/70 hover:bg-bg-alt transition-colors">
                   Cancelar
                 </button>
-                <button type="button" onClick={handleSave} disabled={uploading}
+                <button type="button" onClick={handleSave} disabled={uploading || saving}
                   className="flex flex-1 items-center justify-center gap-2 rounded-sm bg-accent px-6 py-3 font-sans text-sm font-bold text-primary shadow-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all">
-                  <Save size={16} />
-                  {editing ? "Actualizar Publicación" : "Crear Publicación"}
+                  {saving ? (
+                    <div className="h-5 w-5 animate-spin rounded-sm border-[3px] border-primary border-t-transparent" />
+                  ) : (
+                    <Save size={16} />
+                  )}
+                  {saving ? "Guardando..." : editing ? "Actualizar Publicación" : "Crear Publicación"}
                 </button>
               </div>
             </motion.div>

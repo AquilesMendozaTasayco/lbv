@@ -37,8 +37,29 @@ export default function EquipoPreview() {
     fetchData();
   }, []);
 
-  if (!loaded) return null;
-  if (!miembros.length) return null;
+  if (!loaded) {
+    return (
+      <section className="bg-white py-12 md:py-16 xl:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="mb-8 md:mb-12 text-center">
+            <span className="font-sans text-[8px] md:text-[10px] uppercase tracking-[0.2em] text-accent font-semibold">Profesionales</span>
+            <h2 className="font-sans text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary mt-2 leading-tight">Nuestro Equipo</h2>
+          </div>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {[1, 2, 3, 4].map(i => (
+              <div key={i} className="rounded-sm border border-primary/10 bg-white animate-pulse">
+                <div className="aspect-[4/5] bg-primary/5" />
+                <div className="p-4 space-y-2">
+                  <div className="h-4 w-3/4 bg-primary/5 rounded-sm mx-auto" />
+                  <div className="h-3 w-1/2 bg-primary/5 rounded-sm mx-auto" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="bg-white py-12 md:py-16 xl:py-20">
@@ -52,33 +73,40 @@ export default function EquipoPreview() {
           </h2>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {miembros.map((m, i) => (
-            <Link
-              key={m.id}
-              href={`/equipo/${m.slug}`}
-              className="group rounded-sm border border-primary/10 bg-white shadow-sm overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
-            >
-              <div className="aspect-[4/5] overflow-hidden bg-bg-alt">
-                {m.foto ? (
-                  <img src={m.foto} alt={m.nombre} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                ) : (
-                  <div className="flex h-full items-center justify-center">
-                    <Users size={48} className="text-text/20" />
-                  </div>
-                )}
-              </div>
-              <div className="p-4 text-center">
-                <h3 className="font-sans text-sm font-bold text-primary group-hover:text-accent transition-colors">
-                  {m.nombre}
-                </h3>
-                {m.cargo && (
-                  <p className="font-sans text-[10px] text-text/50 mt-0.5">{m.cargo}</p>
-                )}
-              </div>
-            </Link>
-          ))}
-        </div>
+        {miembros.length === 0 ? (
+          <div className="text-center py-16">
+            <Users size={48} className="mx-auto mb-4 text-text/20" />
+            <p className="font-sans text-sm text-text/40">No hay miembros del equipo registrados aún</p>
+          </div>
+        ) : (
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {miembros.map((m, i) => (
+              <Link
+                key={m.id}
+                href={`/equipo/${m.slug}`}
+                className="group rounded-sm border border-primary/10 bg-white shadow-sm overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+              >
+                <div className="aspect-[4/5] overflow-hidden bg-bg-alt">
+                  {m.foto ? (
+                    <img src={m.foto} alt={m.nombre} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  ) : (
+                    <div className="flex h-full items-center justify-center">
+                      <Users size={48} className="text-text/20" />
+                    </div>
+                  )}
+                </div>
+                <div className="p-4 text-center">
+                  <h3 className="font-sans text-sm font-bold text-primary group-hover:text-accent transition-colors">
+                    {m.nombre}
+                  </h3>
+                  {m.cargo && (
+                    <p className="font-sans text-[10px] text-text/50 mt-0.5">{m.cargo}</p>
+                  )}
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
 
         <div className="mt-8 text-center">
           <Link

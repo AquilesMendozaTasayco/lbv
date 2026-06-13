@@ -62,7 +62,7 @@ export default function AbogadoDetailPage() {
   if (!abogado) {
     return (
       <>
-        <PageHero title="No encontrado" subtitle="El abogado no está disponible" bgImage="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920&q=80" />
+        <PageHero title="No encontrado" subtitle="El abogado no está disponible" bgImage="/images/img6.jpg" />
         <div className="py-20 text-center">
           <Users size={56} className="mx-auto mb-4 text-text/20" />
           <p className="font-sans text-sm text-text/40 mb-6">El abogado que buscas no existe.</p>

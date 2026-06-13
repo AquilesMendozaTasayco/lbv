@@ -29,7 +29,7 @@ export default function ContactoPage() {
       <PageHero
         title="Contacto"
         subtitle="Estamos listos para atenderlo. Contáctenos y recibirá asesoría legal personalizada"
-        bgImage="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1920&q=80"
+        bgImage="/images/img8.jpg"
       />
 
       <section className="bg-white py-12 md:py-16 xl:py-20">
@@ -85,7 +85,7 @@ export default function ContactoPage() {
                     <input
                       type="tel"
                       className="w-full rounded-sm border border-primary/15 bg-bg-alt px-4 py-2.5 md:py-3 font-sans text-[10px] md:text-sm text-text outline-none transition-all duration-200 focus:border-accent focus:bg-white focus:ring-1 focus:ring-accent/30"
-                      placeholder="963 447 503"
+                      placeholder="989 592 806"
                     />
                   </div>
                   <div>
@@ -98,6 +98,7 @@ export default function ContactoPage() {
                       <option value="civil">Civil</option>
                       <option value="laboral">Laboral</option>
                       <option value="penal">Penal</option>
+                      <option value="gerencia">Gerencia</option>
                       <option value="otro">Otro</option>
                     </select>
                   </div>
@@ -162,7 +163,7 @@ export default function ContactoPage() {
                   <div>
                     <h4 className="font-sans text-xs md:text-sm font-bold text-primary">Teléfono</h4>
                     <p className="font-sans text-[10px] md:text-sm text-text/70 leading-relaxed mt-0.5">
-                      {d.telefono || "+51 963 447 503"}
+                      {d.telefono || "+51 989 592 806"}
                     </p>
                   </div>
                 </div>
@@ -176,6 +177,42 @@ export default function ContactoPage() {
                     <p className="font-sans text-[10px] md:text-sm text-text/70 leading-relaxed mt-0.5">
                       {d.email || "contacto@lbvabogados.pe"}
                     </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 md:h-12 md:w-12 shrink-0 items-center justify-center rounded-full bg-accent/10">
+                    <Mail className="h-4 w-4 md:h-5 md:w-5 text-accent" />
+                  </div>
+                  <div>
+                    <h4 className="font-sans text-xs md:text-sm font-bold text-primary">Correos por área</h4>
+                    <div className="mt-2 space-y-2">
+                      <a href="mailto:administrativo@lbv.pe" className="group flex items-center gap-2 font-sans text-[10px] md:text-sm text-text/70 hover:text-accent transition-colors">
+                        <span className="h-2 w-2 rounded-full bg-accent/60 shrink-0" />
+                        <span className="font-semibold text-primary text-[9px] md:text-xs uppercase tracking-wider min-w-[90px]">Administrativo:</span>
+                        administrativo@lbv.pe
+                      </a>
+                      <a href="mailto:civil@lbv.pe" className="group flex items-center gap-2 font-sans text-[10px] md:text-sm text-text/70 hover:text-accent transition-colors">
+                        <span className="h-2 w-2 rounded-full bg-accent/60 shrink-0" />
+                        <span className="font-semibold text-primary text-[9px] md:text-xs uppercase tracking-wider min-w-[90px]">Civil:</span>
+                        civil@lbv.pe
+                      </a>
+                      <a href="mailto:laboral@lbv.pe" className="group flex items-center gap-2 font-sans text-[10px] md:text-sm text-text/70 hover:text-accent transition-colors">
+                        <span className="h-2 w-2 rounded-full bg-accent/60 shrink-0" />
+                        <span className="font-semibold text-primary text-[9px] md:text-xs uppercase tracking-wider min-w-[90px]">Laboral:</span>
+                        laboral@lbv.pe
+                      </a>
+                      <a href="mailto:penal@lbv.pe" className="group flex items-center gap-2 font-sans text-[10px] md:text-sm text-text/70 hover:text-accent transition-colors">
+                        <span className="h-2 w-2 rounded-full bg-accent/60 shrink-0" />
+                        <span className="font-semibold text-primary text-[9px] md:text-xs uppercase tracking-wider min-w-[90px]">Penal:</span>
+                        penal@lbv.pe
+                      </a>
+                      <a href="mailto:gerencia@lbv.pe" className="group flex items-center gap-2 font-sans text-[10px] md:text-sm text-text/70 hover:text-accent transition-colors">
+                        <span className="h-2 w-2 rounded-full bg-accent/60 shrink-0" />
+                        <span className="font-semibold text-primary text-[9px] md:text-xs uppercase tracking-wider min-w-[90px]">Gerencia:</span>
+                        gerencia@lbv.pe
+                      </a>
+                    </div>
                   </div>
                 </div>
 

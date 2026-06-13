@@ -6,7 +6,7 @@ import Image from "@tiptap/extension-image";
 import { useState, useCallback } from "react";
 import {
   Bold, Italic, List, ListOrdered, Heading1, Heading2,
-  Quote, Undo, Redo, ImageIcon, Pilcrow,
+  Quote, Undo, Redo, ImageIcon, Pilcrow, Loader2,
 } from "lucide-react";
 
 const MenuButton = ({ onClick, active, children }) => (
@@ -21,7 +21,7 @@ const MenuButton = ({ onClick, active, children }) => (
   </button>
 );
 
-export default function RichEditor({ content, onChange }) {
+export default function RichEditor({ content, onChange, uploadImage }) {
   const [uploading, setUploading] = useState(false);
 
   const editor = useEditor({
@@ -56,15 +56,25 @@ export default function RichEditor({ content, onChange }) {
       if (file.size > 8 * 1024 * 1024) return;
 
       setUploading(true);
-      const reader = new FileReader();
-      reader.onload = () => {
-        editor?.chain().focus().setImage({ src: reader.result }).run();
+      try {
+        if (uploadImage) {
+          const url = await uploadImage(file);
+          editor?.chain().focus().setImage({ src: url }).run();
+        } else {
+          const reader = new FileReader();
+          reader.onload = () => {
+            editor?.chain().focus().setImage({ src: reader.result }).run();
+          };
+          reader.readAsDataURL(file);
+        }
+      } catch {
+        // fallback
+      } finally {
         setUploading(false);
-      };
-      reader.readAsDataURL(file);
+      }
     };
     input.click();
-  }, [editor]);
+  }, [editor, uploadImage]);
 
   if (!editor) return null;
 
@@ -99,7 +109,7 @@ export default function RichEditor({ content, onChange }) {
         </MenuButton>
         <span className="mx-1 h-5 w-px bg-primary/10" />
         <MenuButton onClick={addImage}>
-          <ImageIcon size={14} />
+          {uploading ? <Loader2 size={14} className="animate-spin" /> : <ImageIcon size={14} />}
         </MenuButton>
         <span className="mx-1 h-5 w-px bg-primary/10" />
         <MenuButton onClick={() => editor.chain().focus().undo().run()}>

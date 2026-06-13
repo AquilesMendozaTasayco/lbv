@@ -30,7 +30,7 @@ export default function PorQueElegirnos() {
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-[0.04]"
         style={{
           backgroundImage:
-            "url(https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1920&q=80)",
+            "url(/images/img6.jpg)",
         }}
       />
       <div className="absolute inset-0 bg-gradient-to-b from-primary via-primary/95 to-primary" />

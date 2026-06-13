@@ -43,7 +43,7 @@ export default function NoticiasPage() {
       <PageHero
         title="Noticias"
         subtitle="Manténgase informado con las últimas novedades del estudio y del ámbito legal"
-        bgImage="https://images.unsplash.com/photo-1504711434969-e33886168d6c?w=1920&q=80"
+        bgImage="/images/img6.jpg"
       />
 
       <section className="py-12 md:py-16 xl:py-20">

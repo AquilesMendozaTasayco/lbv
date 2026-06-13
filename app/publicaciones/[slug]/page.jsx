@@ -55,7 +55,7 @@ export default function PublicacionDetailPage() {
   if (!pub) {
     return (
       <>
-        <PageHero title="No encontrada" subtitle="La publicación no está disponible" bgImage="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1920&q=80" />
+        <PageHero title="No encontrada" subtitle="La publicación no está disponible" bgImage="/images/img6.jpg" />
         <div className="py-20 text-center">
           <FileText size={56} className="mx-auto mb-4 text-text/20" />
           <p className="font-sans text-sm text-text/40 mb-6">La publicación que buscas no existe.</p>
@@ -72,7 +72,7 @@ export default function PublicacionDetailPage() {
       <PageHero
         title={pub.titulo}
         subtitle={espNombre || "Publicación LBV"}
-        bgImage={pub.imagen || "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1920&q=80"}
+                bgImage={pub.imagen || "/images/img6.jpg"}
       />
 
       <section className="py-8 md:py-10 border-b border-primary/10">
@@ -119,7 +119,7 @@ export default function PublicacionDetailPage() {
 
       <section className="relative overflow-hidden bg-primary py-14 md:py-20">
         <div className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url(https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1920&q=80)" }} />
+          style={{ backgroundImage: "url(/images/img8.jpg)" }} />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/80 to-primary/60" />
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItSDI0di0yaDEyek0zNiAyNHYySDI0di0yaDEyeiIvPjwvZz48L2c+PC9zdmc+')] opacity-40" />
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">

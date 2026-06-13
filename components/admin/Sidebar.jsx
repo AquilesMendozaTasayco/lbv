@@ -12,6 +12,22 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
 
+const scrollbarStyles = `
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.15);
+    border-radius: 999px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,0.25);
+  }
+`;
+
 
 const items = [
   { label: "Panel de Control", href: "/admin/", icon: LayoutDashboard },
@@ -57,6 +73,7 @@ export default function Sidebar() {
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
       className="sticky top-0 h-screen flex-shrink-0 bg-primary border-r border-white/10 flex flex-col z-50"
     >
+      <style>{scrollbarStyles}</style>
       {/* Toggle */}
       <button
         onClick={() => setIsCollapsed(!isCollapsed)}
@@ -87,7 +104,7 @@ export default function Sidebar() {
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 space-y-0.5 overflow-x-hidden overflow-y-auto px-3">
+      <nav className="flex-1 space-y-0.5 overflow-x-hidden overflow-y-auto px-3 custom-scrollbar">
         {!isCollapsed && (
           <p className="mb-3 whitespace-nowrap px-4 font-sans text-[9px] font-semibold uppercase tracking-[0.2em] text-white/30">
             Menú

@@ -11,10 +11,10 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <UltimasPublicaciones />
       <NosotrosPreview />
       <ContactCta />
       <ServiciosPreview />
-      <UltimasPublicaciones />
       <UltimasNoticias />
       <EquipoPreview />
       <PorQueElegirnos />

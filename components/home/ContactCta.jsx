@@ -8,7 +8,7 @@ export default function ContactCta() {
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage:
-            "url(https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1920&q=80)",
+            "url(/images/img8.jpg)",
         }}
       />
       <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/80 to-primary/60" />

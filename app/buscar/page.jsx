@@ -80,7 +80,7 @@ function SearchContent() {
       <PageHero
         title="Resultados de búsqueda"
         subtitle={q ? `Mostrando resultados para "${q}"` : "Ingrese un término de búsqueda"}
-        bgImage="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1920&q=80"
+        bgImage="/images/img7.jpg"
       />
 
       <section className="py-12 md:py-16 xl:py-20">

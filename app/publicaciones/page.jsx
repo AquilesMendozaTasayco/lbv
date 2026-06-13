@@ -69,7 +69,7 @@ export default function PublicacionesPage() {
       <PageHero
         title="Publicaciones LBV"
         subtitle="Artículos, guías y análisis jurídicos elaborados por nuestro equipo de especialistas"
-        bgImage="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1920&q=80"
+        bgImage="/images/img6.jpg"
       />
 
       <section className="py-12 md:py-16 xl:py-20">

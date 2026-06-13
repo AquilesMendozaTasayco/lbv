@@ -25,7 +25,7 @@ const STATIC_SERVICIOS = [
     desc: "Asesoramos a empresas y particulares en procedimientos ante entidades públicas, con un enfoque estratégico y de cumplimiento normativo.",
     descExtensa: "Nuestro equipo de derecho administrativo cuenta con amplia experiencia en la tramitación de procedimientos ante organismos reguladores y entidades del Estado. Brindamos asesoría integral en todas las etapas del procedimiento administrativo, desde la planificación estratégica hasta la defensa en sedes administrativas y judiciales. Hemos participado exitosamente en casos de alta complejidad, incluyendo la obtención de concesiones, licencias y autorizaciones sectoriales, así como en la defensa de nuestros clientes en procedimientos sancionadores y de fiscalización.",
     color: "from-blue-900/80 to-blue-800/40",
-    bg: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80",
+    bg: "/images/img2.jpg",
     items: [
       "Formalización minera y concesiones",
       "Derecho ambiental y evaluación de impacto",
@@ -55,7 +55,7 @@ const STATIC_SERVICIOS = [
     desc: "Brindamos asesoría integral en derecho civil y familiar, protegiendo los intereses patrimoniales y personales de nuestros clientes.",
     descExtensa: "El área de derecho civil de LBV Abogados ofrece una cobertura completa de todas las materias vinculadas al derecho privado. Nuestros especialistas cuentan con una sólida formación académica y una vasta experiencia en litigios civiles, asesoría preventiva y planificación patrimonial. Atendemos tanto a personas naturales como jurídicas, brindando soluciones legales eficientes y personalizadas para cada caso.",
     color: "from-emerald-900/80 to-emerald-800/40",
-    bg: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&q=80",
+    bg: "/images/img3.jpg",
     items: [
       "Derecho de familia: divorcios, tenencia, alimentos",
       "Derecho registral y notarial",
@@ -83,7 +83,7 @@ const STATIC_SERVICIOS = [
     desc: "Ofrecemos asesoría laboral preventiva y defensa en litigios, velando por el cumplimiento de los derechos de trabajadores y empleadores.",
     descExtensa: "Nuestra práctica laboral abarca todas las áreas del derecho del trabajo y la seguridad social. Brindamos asesoría preventiva a empresas para optimizar sus relaciones laborales y minimizar riesgos de litigios, así como defensa especializada en procesos judiciales laborales. Representamos tanto a empleadores como a trabajadores, con un enfoque ético y estratégico en cada caso.",
     color: "from-amber-900/80 to-amber-800/40",
-    bg: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=800&q=80",
+    bg: "/images/img11.png",
     items: [
       "Asesoría en contratación laboral",
       "Seguridad social y pensiones",
@@ -111,7 +111,7 @@ const STATIC_SERVICIOS = [
     desc: "Defensa penal estratégica con un enfoque corporativo, protegiendo a personas y empresas en todas las etapas del proceso penal.",
     descExtensa: "El equipo de derecho penal de LBV Abogados combina una profunda experiencia en litigios penales con un enfoque corporativo moderno. Brindamos defensa estratégica en todas las etapas del proceso penal, desde la investigación preliminar hasta el juicio oral y las instancias de casación. Contamos con especialistas en derecho penal corporativo, compliance y delitos económicos, ofreciendo una defensa integral y de alta especialización.",
     color: "from-red-900/80 to-red-800/40",
-    bg: "https://images.unsplash.com/photo-1589578228447-e1a4e4810e5a?w=800&q=80",
+    bg: "/images/img4.jpg",
     items: [
       "Defensa penal estratégica",
       "Derecho penal corporativo",
@@ -151,7 +151,7 @@ export default function ServicioDetailPage() {
         <PageHero
           title="Servicio no encontrado"
           subtitle="El área de práctica que busca no está disponible"
-          bgImage="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1920&q=80"
+          bgImage="/images/img4.jpg"
         />
         <div className="py-20 text-center">
           <Building size={56} className="mx-auto mb-4 text-text/20" />
@@ -356,7 +356,7 @@ export default function ServicioDetailPage() {
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: "url(https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1920&q=80)",
+            backgroundImage: "url(/images/img2.jpg)",
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/80 to-primary/60" />
