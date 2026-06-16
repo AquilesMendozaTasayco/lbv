@@ -1,26 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { MapPin, Phone, Mail, Clock, Send } from "lucide-react";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { MapPin, Phone, Mail, Clock, Send, Globe } from "lucide-react";
+import { FaTiktok, FaLinkedinIn, FaInstagram, FaFacebookF } from "react-icons/fa6";
 import PageHero from "@/components/ui/PageHero";
+import { useContacto } from "@/hooks/useContacto";
 
 export default function ContactoPage() {
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    const fetch = async () => {
-      try {
-        const snap = await getDoc(doc(db, "config", "contacto"));
-        if (snap.exists()) setData(snap.data());
-      } catch { /* fallback a hardcoded */ }
-    };
-    fetch();
-  }, []);
-
-  const d = data || {};
+  const { data: d } = useContacto();
 
   const horarioLines = d.horario ? d.horario.split("\n") : [];
 
@@ -173,18 +160,6 @@ export default function ContactoPage() {
                     <Mail className="h-4 w-4 md:h-5 md:w-5 text-accent" />
                   </div>
                   <div>
-                    <h4 className="font-sans text-xs md:text-sm font-bold text-primary">Correo</h4>
-                    <p className="font-sans text-[10px] md:text-sm text-text/70 leading-relaxed mt-0.5">
-                      {d.email || "contacto@lbvabogados.pe"}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="flex h-10 w-10 md:h-12 md:w-12 shrink-0 items-center justify-center rounded-full bg-accent/10">
-                    <Mail className="h-4 w-4 md:h-5 md:w-5 text-accent" />
-                  </div>
-                  <div>
                     <h4 className="font-sans text-xs md:text-sm font-bold text-primary">Correos por área</h4>
                     <div className="mt-2 space-y-2">
                       <a href="mailto:administrativo@lbv.pe" className="group flex items-center gap-2 font-sans text-[10px] md:text-sm text-text/70 hover:text-accent transition-colors">
@@ -227,6 +202,45 @@ export default function ContactoPage() {
                         ? horarioLines.map((line, i) => <span key={i}>{line}{i < horarioLines.length - 1 && <br />}</span>)
                         : <>Lun – Vie: 9:00 am – 6:00 pm<br />Sáb: 9:00 am – 1:00 pm</>}
                     </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 md:h-12 md:w-12 shrink-0 items-center justify-center rounded-full bg-accent/10">
+                    <Globe className="h-4 w-4 md:h-5 md:w-5 text-accent" />
+                  </div>
+                  <div>
+                    <h4 className="font-sans text-xs md:text-sm font-bold text-primary mb-3">Redes Sociales</h4>
+                    <div className="flex flex-wrap gap-3">
+                      {d.tiktok && (
+                        <a href={d.tiktok} target="_blank" rel="noopener noreferrer"
+                          className="flex h-9 w-9 md:h-10 md:w-10 items-center justify-center rounded-full bg-accent/10 text-accent transition-all duration-300 hover:bg-accent hover:text-primary hover:scale-110"
+                          aria-label="TikTok">
+                          <FaTiktok size={16} />
+                        </a>
+                      )}
+                      {d.linkedin && (
+                        <a href={d.linkedin} target="_blank" rel="noopener noreferrer"
+                          className="flex h-9 w-9 md:h-10 md:w-10 items-center justify-center rounded-full bg-accent/10 text-accent transition-all duration-300 hover:bg-accent hover:text-primary hover:scale-110"
+                          aria-label="LinkedIn">
+                          <FaLinkedinIn size={16} />
+                        </a>
+                      )}
+                      {d.instagram && (
+                        <a href={d.instagram} target="_blank" rel="noopener noreferrer"
+                          className="flex h-9 w-9 md:h-10 md:w-10 items-center justify-center rounded-full bg-accent/10 text-accent transition-all duration-300 hover:bg-accent hover:text-primary hover:scale-110"
+                          aria-label="Instagram">
+                          <FaInstagram size={16} />
+                        </a>
+                      )}
+                      {d.facebook && (
+                        <a href={d.facebook} target="_blank" rel="noopener noreferrer"
+                          className="flex h-9 w-9 md:h-10 md:w-10 items-center justify-center rounded-full bg-accent/10 text-accent transition-all duration-300 hover:bg-accent hover:text-primary hover:scale-110"
+                          aria-label="Facebook">
+                          <FaFacebookF size={16} />
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>

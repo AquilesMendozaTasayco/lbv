@@ -12,6 +12,10 @@ const defaults = {
   horario: "Lun – Vie: 9:00 am – 6:00 pm\nSáb: 9:00 am – 1:00 pm",
   respuestaRapida: "Nuestro equipo responderá su consulta en un máximo de 24 horas hábiles.",
   mapaSrc: "",
+  tiktok: "https://www.tiktok.com/@lbv.abogados",
+  linkedin: "https://www.linkedin.com/company/lbv-abogados/",
+  instagram: "https://www.instagram.com/lbv_abogados",
+  facebook: "https://www.facebook.com/share/1HDWhUbyWn/",
 };
 
 export function useContacto() {
@@ -32,6 +36,10 @@ export function useContacto() {
             horario: d.horario || defaults.horario,
             respuestaRapida: d.respuestaRapida || defaults.respuestaRapida,
             mapaSrc: d.mapaSrc || "",
+            tiktok: d.tiktok || defaults.tiktok,
+            linkedin: d.linkedin || defaults.linkedin,
+            instagram: d.instagram || defaults.instagram,
+            facebook: d.facebook || defaults.facebook,
           });
         }
       } catch { /* usa defaults */ }

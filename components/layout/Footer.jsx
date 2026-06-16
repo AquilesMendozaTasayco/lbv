@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { FaTiktok, FaLinkedinIn, FaInstagram, FaFacebookF } from "react-icons/fa6";
 import { useContacto } from "@/hooks/useContacto";
 
 const links = [
@@ -16,7 +17,7 @@ export default function Footer() {
   return (
     <footer className="bg-primary text-white">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:py-10 md:py-12 xl:py-16">
-        <div className="grid gap-6 sm:gap-8 md:gap-10 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 sm:gap-8 md:gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div className="sm:col-span-2 lg:col-span-1">
             <img
               src="/logo.png"
@@ -72,6 +73,42 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
+          </div>
+
+          <div>
+            <h3 className="font-sans text-sm md:text-base xl:text-lg font-semibold mb-3 md:mb-4">
+              Síguenos
+            </h3>
+            <div className="flex flex-wrap gap-3">
+              {data.tiktok && (
+                <a href={data.tiktok} target="_blank" rel="noopener noreferrer"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white/70 transition-all duration-300 hover:bg-accent hover:text-primary hover:scale-110"
+                  aria-label="TikTok">
+                  <FaTiktok size={18} />
+                </a>
+              )}
+              {data.linkedin && (
+                <a href={data.linkedin} target="_blank" rel="noopener noreferrer"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white/70 transition-all duration-300 hover:bg-accent hover:text-primary hover:scale-110"
+                  aria-label="LinkedIn">
+                  <FaLinkedinIn size={18} />
+                </a>
+              )}
+              {data.instagram && (
+                <a href={data.instagram} target="_blank" rel="noopener noreferrer"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white/70 transition-all duration-300 hover:bg-accent hover:text-primary hover:scale-110"
+                  aria-label="Instagram">
+                  <FaInstagram size={18} />
+                </a>
+              )}
+              {data.facebook && (
+                <a href={data.facebook} target="_blank" rel="noopener noreferrer"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white/70 transition-all duration-300 hover:bg-accent hover:text-primary hover:scale-110"
+                  aria-label="Facebook">
+                  <FaFacebookF size={18} />
+                </a>
+              )}
+            </div>
           </div>
         </div>
       </div>

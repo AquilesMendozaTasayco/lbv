@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import Swal from "sweetalert2";
-import { Save, MapPin, Phone, Mail, Clock, MessageSquare, Map } from "lucide-react";
+import { Save, MapPin, Phone, Mail, Clock, MessageSquare, Map, Globe } from "lucide-react";
 
 const DOC_ID = "contacto";
 
@@ -17,6 +17,10 @@ const defaults = {
   horario: "Lun – Vie: 9:00 am – 6:00 pm\nSáb: 9:00 am – 1:00 pm",
   respuestaRapida: "Nuestro equipo responderá su consulta en un máximo de 24 horas hábiles.",
   mapaSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.7703786338444!2d-77.036525!3d-12.098142!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c8f3f7f5c1f7%3A0x3f3f3f3f3f3f3f3f!2sSan+Isidro%2C+Lima%2C+Peru!5e0!3m2!1sen!2s!4v1",
+  tiktok: "https://www.tiktok.com/@lbv.abogados",
+  linkedin: "https://www.linkedin.com/company/lbv-abogados/",
+  instagram: "https://www.instagram.com/lbv_abogados",
+  facebook: "https://www.facebook.com/share/1HDWhUbyWn/",
 };
 
 export default function AdminContactoPage() {
@@ -38,6 +42,10 @@ export default function AdminContactoPage() {
             horario: d.horario || "",
             respuestaRapida: d.respuestaRapida || "",
             mapaSrc: d.mapaSrc || "",
+            tiktok: d.tiktok || "",
+            linkedin: d.linkedin || "",
+            instagram: d.instagram || "",
+            facebook: d.facebook || "",
           });
         }
       } catch { /* defaults */ }
@@ -172,6 +180,39 @@ export default function AdminContactoPage() {
                 <iframe src={form.mapaSrc} width="100%" height="100%" style={{ border: 0 }} loading="lazy" title="Preview mapa" />
               </div>
             )}
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }} className="rounded-sm border border-primary/10 bg-white p-6 shadow-sm">
+            <div className="flex items-center gap-2 border-b border-primary/10 pb-3 mb-5">
+              <Globe size={15} className="text-accent" />
+              <h3 className="font-sans text-[10px] font-semibold uppercase tracking-widest text-text/60">Redes Sociales</h3>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <label className="mb-1.5 block font-sans text-[10px] font-semibold uppercase tracking-wider text-text/60">TikTok</label>
+                <input type="url" value={form.tiktok}
+                  onChange={e => setForm(p => ({ ...p, tiktok: e.target.value }))}
+                  className="w-full rounded-sm border border-primary/10 bg-bg-alt px-4 py-2.5 font-sans text-sm text-text outline-none transition-all focus:border-accent focus:ring-1 focus:ring-accent/30" />
+              </div>
+              <div>
+                <label className="mb-1.5 block font-sans text-[10px] font-semibold uppercase tracking-wider text-text/60">LinkedIn</label>
+                <input type="url" value={form.linkedin}
+                  onChange={e => setForm(p => ({ ...p, linkedin: e.target.value }))}
+                  className="w-full rounded-sm border border-primary/10 bg-bg-alt px-4 py-2.5 font-sans text-sm text-text outline-none transition-all focus:border-accent focus:ring-1 focus:ring-accent/30" />
+              </div>
+              <div>
+                <label className="mb-1.5 block font-sans text-[10px] font-semibold uppercase tracking-wider text-text/60">Instagram</label>
+                <input type="url" value={form.instagram}
+                  onChange={e => setForm(p => ({ ...p, instagram: e.target.value }))}
+                  className="w-full rounded-sm border border-primary/10 bg-bg-alt px-4 py-2.5 font-sans text-sm text-text outline-none transition-all focus:border-accent focus:ring-1 focus:ring-accent/30" />
+              </div>
+              <div>
+                <label className="mb-1.5 block font-sans text-[10px] font-semibold uppercase tracking-wider text-text/60">Facebook</label>
+                <input type="url" value={form.facebook}
+                  onChange={e => setForm(p => ({ ...p, facebook: e.target.value }))}
+                  className="w-full rounded-sm border border-primary/10 bg-bg-alt px-4 py-2.5 font-sans text-sm text-text outline-none transition-all focus:border-accent focus:ring-1 focus:ring-accent/30" />
+              </div>
+            </div>
           </motion.div>
         </div>
       </div>
