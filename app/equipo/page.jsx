@@ -170,20 +170,7 @@ export default function EquipoPage() {
                           <p className="font-sans text-[10px] md:text-xs text-text/50 mt-0.5">{m.cargo}</p>
                         )}
                       </div>
-                      {m.especialidades.length > 0 && (
-                        <div className="flex flex-wrap gap-1 mt-3">
-                          {m.especialidades.slice(0, 2).map(e => (
-                            <span key={e} className="rounded-sm bg-accent/10 px-2 py-0.5 font-sans text-[7px] text-accent font-semibold uppercase tracking-wider">
-                              {especialidades[e] || ""}
-                            </span>
-                          ))}
-                          {m.especialidades.length > 2 && (
-                            <span className="rounded-sm bg-bg-alt px-2 py-0.5 font-sans text-[7px] text-text/40">
-                              +{m.especialidades.length - 2}
-                            </span>
-                          )}
-                        </div>
-                      )}
+
                     </div>
                   </Link>
                 </motion.div>
