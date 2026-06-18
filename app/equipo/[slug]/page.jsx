@@ -79,7 +79,7 @@ export default function AbogadoDetailPage() {
       <PageHero
         title={abogado.nombre}
         subtitle={abogado.cargo || "LBV Abogados"}
-        bgImage={abogado.foto || "/images/img8.jpg"}
+        bgImage="/images/img8.jpg"
       />
 
       <section className="py-8 md:py-10 bg-bg-alt border-b border-primary/10">
