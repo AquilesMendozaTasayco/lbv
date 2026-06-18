@@ -82,10 +82,7 @@ export default function ContactoPage() {
                     <select className="w-full rounded-sm border border-primary/15 bg-bg-alt px-4 py-2.5 md:py-3 font-sans text-[10px] md:text-sm text-text outline-none transition-all duration-200 focus:border-accent focus:bg-white focus:ring-1 focus:ring-accent/30">
                       <option value="">Seleccione una opción</option>
                       <option value="administrativo">Administrativo</option>
-                      <option value="civil">Civil</option>
-                      <option value="laboral">Laboral</option>
                       <option value="penal">Penal</option>
-                      <option value="gerencia">Gerencia</option>
                       <option value="otro">Otro</option>
                     </select>
                   </div>
@@ -162,31 +159,18 @@ export default function ContactoPage() {
                   <div>
                     <h4 className="font-sans text-xs md:text-sm font-bold text-primary">Correos por área</h4>
                     <div className="mt-2 space-y-2">
-                      <a href="mailto:administrativo@lbv.pe" className="group flex items-center gap-2 font-sans text-[10px] md:text-sm text-text/70 hover:text-accent transition-colors">
-                        <span className="h-2 w-2 rounded-full bg-accent/60 shrink-0" />
-                        <span className="font-semibold text-primary text-[9px] md:text-xs uppercase tracking-wider min-w-[90px]">Administrativo:</span>
-                        administrativo@lbv.pe
-                      </a>
-                      <a href="mailto:civil@lbv.pe" className="group flex items-center gap-2 font-sans text-[10px] md:text-sm text-text/70 hover:text-accent transition-colors">
-                        <span className="h-2 w-2 rounded-full bg-accent/60 shrink-0" />
-                        <span className="font-semibold text-primary text-[9px] md:text-xs uppercase tracking-wider min-w-[90px]">Civil:</span>
-                        civil@lbv.pe
-                      </a>
-                      <a href="mailto:laboral@lbv.pe" className="group flex items-center gap-2 font-sans text-[10px] md:text-sm text-text/70 hover:text-accent transition-colors">
-                        <span className="h-2 w-2 rounded-full bg-accent/60 shrink-0" />
-                        <span className="font-semibold text-primary text-[9px] md:text-xs uppercase tracking-wider min-w-[90px]">Laboral:</span>
-                        laboral@lbv.pe
-                      </a>
-                      <a href="mailto:penal@lbv.pe" className="group flex items-center gap-2 font-sans text-[10px] md:text-sm text-text/70 hover:text-accent transition-colors">
-                        <span className="h-2 w-2 rounded-full bg-accent/60 shrink-0" />
-                        <span className="font-semibold text-primary text-[9px] md:text-xs uppercase tracking-wider min-w-[90px]">Penal:</span>
-                        penal@lbv.pe
-                      </a>
-                      <a href="mailto:gerencia@lbv.pe" className="group flex items-center gap-2 font-sans text-[10px] md:text-sm text-text/70 hover:text-accent transition-colors">
-                        <span className="h-2 w-2 rounded-full bg-accent/60 shrink-0" />
-                        <span className="font-semibold text-primary text-[9px] md:text-xs uppercase tracking-wider min-w-[90px]">Gerencia:</span>
-                        gerencia@lbv.pe
-                      </a>
+                      {(d.correosPorArea || "Administrativo: administrativo@lbv.pe\nPenal: penal@lbv.pe").split("\n").filter(Boolean).map((line, i) => {
+                        const parts = line.split(":").map(s => s.trim());
+                        const area = parts[0];
+                        const correo = parts.slice(1).join(":");
+                        return correo ? (
+                          <a key={i} href={`mailto:${correo}`} className="group flex items-center gap-2 font-sans text-[10px] md:text-sm text-text/70 hover:text-accent transition-colors">
+                            <span className="h-2 w-2 rounded-full bg-accent/60 shrink-0" />
+                            <span className="font-semibold text-primary text-[9px] md:text-xs uppercase tracking-wider min-w-[90px]">{area}:</span>
+                            {correo}
+                          </a>
+                        ) : null;
+                      })}
                     </div>
                   </div>
                 </div>

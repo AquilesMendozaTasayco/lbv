@@ -153,7 +153,7 @@ export default function EquipoPage() {
                   >
                     <div className="aspect-[4/5] overflow-hidden bg-bg-alt shrink-0">
                       {m.foto ? (
-                        <img src={m.foto} alt={m.nombre} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                        <img src={m.foto} alt={m.nombre} className="h-full w-full object-contain bg-bg-alt transition-transform duration-500 group-hover:scale-105" />
                       ) : (
                         <div className="flex h-full items-center justify-center">
                           <Users size={48} className="text-text/20" />

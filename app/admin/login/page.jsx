@@ -97,7 +97,7 @@ export default function AdminLoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 className="w-full rounded-sm border border-white/10 bg-white/5 px-4 py-2.5 md:py-3 font-sans text-[10px] md:text-sm text-white outline-none transition-all duration-200 placeholder:text-white/30 focus:border-accent focus:bg-white/10 focus:ring-1 focus:ring-accent/30"
-                placeholder="admin@lbvabogados.pe"
+                placeholder="admin@lbv.pe"
               />
             </div>
 

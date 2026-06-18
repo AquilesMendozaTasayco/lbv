@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Calendar, Award, ShieldCheck, Users } from "lucide-react";
 
 const items = [
@@ -48,9 +49,10 @@ export default function PorQueElegirnos() {
           {items.map((item, i) => {
             const Icon = item.icon;
             return (
-              <div
+              <Link
                 key={i}
-                className="group rounded-sm border border-white/10 bg-white/5 p-6 md:p-7 text-center transition-all duration-300 hover:border-accent/30 hover:bg-white/10"
+                href="/nosotros"
+                className="group block rounded-sm border border-white/10 bg-white/5 p-6 md:p-7 text-center transition-all duration-300 hover:border-accent/30 hover:bg-white/10"
               >
                 <div className="mx-auto mb-4 flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-full bg-accent/10 group-hover:bg-accent/20 transition-colors duration-300">
                   <Icon className="h-6 w-6 md:h-7 md:w-7 text-accent" />
@@ -63,7 +65,7 @@ export default function PorQueElegirnos() {
                 <p className="font-sans text-[10px] md:text-xs text-white/50 leading-relaxed">
                   {item.desc}
                 </p>
-              </div>
+              </Link>
             );
           })}
         </div>

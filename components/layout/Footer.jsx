@@ -49,7 +49,7 @@ export default function Footer() {
                   href={`mailto:${data.email}`}
                   className="transition-colors duration-300 hover:text-accent"
                 >
-                  {data.email || "contacto@lbvabogados.pe"}
+                  {data.email || "lbvabogados@lbv.pe"}
                 </a>
               </li>
               <li>{data.direccion ? `${data.direccion}, ${data.ciudad}` : "Av. Principal 1234, San Isidro, Lima"}</li>

@@ -435,7 +435,7 @@ export default function AdminEquipoPage() {
                         <label className="mb-1.5 block font-sans text-[10px] font-semibold uppercase tracking-wider text-text/60">Email</label>
                         <input type="email" value={form.email}
                           onChange={e => setForm(p => ({ ...p, email: e.target.value }))}
-                          placeholder="Ej: clopez@lbvabogados.pe"
+                          placeholder="Ej: clopez@lbv.pe"
                           className="w-full rounded-sm border border-primary/10 bg-bg-alt px-4 py-2.5 font-sans text-sm text-text outline-none transition-all focus:border-accent focus:ring-1 focus:ring-accent/30 placeholder:text-text/30" />
                       </div>
                       <div>

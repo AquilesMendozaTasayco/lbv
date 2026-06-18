@@ -13,10 +13,11 @@ const defaults = {
   direccion: "Av. Principal 1234, San Isidro",
   ciudad: "Lima, Perú",
   telefono: "+51 989 592 806",
-  email: "contacto@lbvabogados.pe",
+  email: "lbvabogados@lbv.pe",
   horario: "Lun – Vie: 9:00 am – 6:00 pm\nSáb: 9:00 am – 1:00 pm",
   respuestaRapida: "Nuestro equipo responderá su consulta en un máximo de 24 horas hábiles.",
   mapaSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.7703786338444!2d-77.036525!3d-12.098142!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c8f3f7f5c1f7%3A0x3f3f3f3f3f3f3f3f!2sSan+Isidro%2C+Lima%2C+Peru!5e0!3m2!1sen!2s!4v1",
+  correosPorArea: "Administrativo: administrativo@lbv.pe\nPenal: penal@lbv.pe",
   tiktok: "https://www.tiktok.com/@lbv.abogados",
   linkedin: "https://www.linkedin.com/company/lbv-abogados/",
   instagram: "https://www.instagram.com/lbv_abogados",
@@ -42,6 +43,7 @@ export default function AdminContactoPage() {
             horario: d.horario || "",
             respuestaRapida: d.respuestaRapida || "",
             mapaSrc: d.mapaSrc || "",
+            correosPorArea: d.correosPorArea || "",
             tiktok: d.tiktok || "",
             linkedin: d.linkedin || "",
             instagram: d.instagram || "",
@@ -164,6 +166,17 @@ export default function AdminContactoPage() {
             <textarea rows={2} value={form.respuestaRapida}
               onChange={e => setForm(p => ({ ...p, respuestaRapida: e.target.value }))}
               className="w-full rounded-sm border border-primary/10 bg-bg-alt px-4 py-2.5 font-sans text-sm text-text outline-none transition-all focus:border-accent focus:ring-1 focus:ring-accent/30 resize-none" />
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.27 }} className="rounded-sm border border-primary/10 bg-white p-6 shadow-sm">
+            <div className="flex items-center gap-2 border-b border-primary/10 pb-3 mb-5">
+              <Mail size={15} className="text-accent" />
+              <h3 className="font-sans text-[10px] font-semibold uppercase tracking-widest text-text/60">Correos por área</h3>
+            </div>
+            <textarea rows={3} value={form.correosPorArea}
+              onChange={e => setForm(p => ({ ...p, correosPorArea: e.target.value }))}
+              className="w-full rounded-sm border border-primary/10 bg-bg-alt px-4 py-2.5 font-sans text-sm text-text outline-none transition-all focus:border-accent focus:ring-1 focus:ring-accent/30 resize-none" />
+            <p className="mt-1 font-sans text-[9px] text-text/40">Formato: Área: correo@dominio.pe (uno por línea)</p>
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="rounded-sm border border-primary/10 bg-white p-6 shadow-sm">
