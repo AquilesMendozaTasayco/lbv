@@ -8,7 +8,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "@/lib/firebase";
 import Swal from "sweetalert2";
 
-export default function UneteAlEquipo() {
+export default function UneteAlEquipo({ id }) {
   const [showModal, setShowModal] = useState(false);
   const [especialidades, setEspecialidades] = useState([]);
   const [submitting, setSubmitting] = useState(false);
@@ -56,7 +56,7 @@ export default function UneteAlEquipo() {
 
   return (
     <>
-      <section className="relative overflow-hidden bg-primary py-16 md:py-24">
+      <section id={id} className="relative overflow-hidden bg-primary py-16 md:py-24">
         <div className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url(https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920&q=80)" }} />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/85 to-primary/90" />

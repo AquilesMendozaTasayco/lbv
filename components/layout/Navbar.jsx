@@ -9,11 +9,24 @@ import SearchOverlay from "./SearchOverlay";
 
 const links = [
   { href: "/", label: "Inicio" },
-  { href: "/nosotros", label: "Nosotros" },
-  { href: "/equipo", label: "Equipo" },
+  {
+    href: "/nosotros", label: "Nosotros",
+    subItems: [
+      { href: "/nosotros#historia", label: "Historia" },
+      { href: "/nosotros#filosofia", label: "Filosofía" },
+      { href: "/nosotros#valores", label: "Valores" },
+    ],
+  },
+  {
+    href: "/equipo", label: "Equipo",
+    subItems: [
+      { href: "/equipo#nuestro-equipo", label: "Nuestro Equipo" },
+      { href: "/equipo#unete-al-equipo", label: "Únete a nuestro equipo" },
+    ],
+  },
   { href: "/servicios", label: "Servicios" },
   { href: "/noticias", label: "Noticias" },
-  { href: "/publicaciones", label: "Publicaciones LBV" },
+  { href: "/publicaciones", label: "Publicaciones" },
   { href: "/contacto", label: "Contacto" },
 ];
 
@@ -68,13 +81,13 @@ export default function Navbar() {
               <Search size={15} className="xl:h-4 xl:w-4 2xl:h-[18px] 2xl:w-[18px]" />
             </button>
           </li>
-          {links.map(({ href, label }) => {
-            const isActive = pathname === href;
+          {links.map(({ href, label, subItems }) => {
+            const isActive = pathname === href || pathname.startsWith(href + "/");
             return (
-              <li key={href}>
+              <li key={href} className="group relative">
                 <Link
                   href={href}
-                  className="group relative font-sans text-[8px] lg:text-[9px] xl:text-[10px] 2xl:text-xs font-semibold uppercase tracking-[0.08em] lg:tracking-[0.1em] xl:tracking-[0.12em] 2xl:tracking-[0.15em] transition-colors duration-300"
+                  className="relative font-sans text-[8px] lg:text-[9px] xl:text-[10px] 2xl:text-xs font-semibold uppercase tracking-[0.08em] lg:tracking-[0.1em] xl:tracking-[0.12em] 2xl:tracking-[0.15em] transition-colors duration-300"
                 >
                   <span className={isActive ? "text-accent" : "text-white/90 group-hover:text-accent"}>
                     {label}
@@ -85,6 +98,21 @@ export default function Navbar() {
                     }`}
                   />
                 </Link>
+                {subItems && (
+                  <div className="pointer-events-none absolute left-0 top-full pt-2 opacity-0 transition-all duration-200 group-hover:pointer-events-auto group-hover:opacity-100">
+                    <div className="min-w-[180px] rounded-sm bg-primary border border-white/10 shadow-xl shadow-black/30">
+                      {subItems.map(sub => (
+                        <Link
+                          key={sub.href}
+                          href={sub.href}
+                          className="block px-5 py-2.5 font-sans text-[9px] xl:text-[10px] font-semibold uppercase tracking-wider text-white/70 hover:text-accent hover:bg-white/5 transition-all duration-200 first:rounded-t-sm last:rounded-b-sm"
+                        >
+                          {sub.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </li>
             );
           })}
@@ -113,8 +141,8 @@ export default function Navbar() {
                   Buscar
                 </button>
               </li>
-              {links.map(({ href, label }) => {
-                const isActive = pathname === href;
+              {links.map(({ href, label, subItems }) => {
+                const isActive = pathname === href || pathname.startsWith(href + "/");
                 return (
                   <li key={href}>
                     <Link
@@ -126,6 +154,20 @@ export default function Navbar() {
                     >
                       {label}
                     </Link>
+                    {subItems && (
+                      <div className="ml-3 mt-1 space-y-1 border-l border-white/10 pl-3">
+                        {subItems.map(sub => (
+                          <Link
+                            key={sub.href}
+                            href={sub.href}
+                            onClick={() => setOpen(false)}
+                            className="block font-sans text-[9px] md:text-[10px] font-semibold uppercase tracking-wider text-white/50 hover:text-accent transition-colors"
+                          >
+                            {sub.label}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
                   </li>
                 );
               })}

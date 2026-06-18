@@ -54,7 +54,7 @@ export default function NosotrosPage() {
         bgImage="/images/img7.jpg"
       />
 
-      <section className="bg-white py-12 md:py-16 xl:py-20">
+      <section id="historia" className="bg-white py-12 md:py-16 xl:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="grid items-center gap-8 md:gap-12 lg:grid-cols-2">
             <motion.div
@@ -119,7 +119,7 @@ export default function NosotrosPage() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-primary py-8 md:py-10">
+      <section id="filosofia" className="relative overflow-hidden bg-primary py-8 md:py-10">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
@@ -184,7 +184,7 @@ export default function NosotrosPage() {
         </div>
       </section>
 
-      <section className="bg-bg-alt py-12 md:py-16 xl:py-20">
+      <section id="valores" className="bg-bg-alt py-12 md:py-16 xl:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}

@@ -66,7 +66,7 @@ export default function EquipoPage() {
         bgImage="/images/img8.jpg"
       />
 
-      <section className="py-12 md:py-16 xl:py-20">
+      <section id="nuestro-equipo" className="py-12 md:py-16 xl:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -180,7 +180,7 @@ export default function EquipoPage() {
         </div>
       </section>
 
-      <UneteAlEquipo />
+      <UneteAlEquipo id="unete-al-equipo" />
     </>
   );
 }
