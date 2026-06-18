@@ -12,7 +12,7 @@ import Swal from "sweetalert2";
 import {
   Plus, Trash2, X, Save, Upload, Eye, EyeOff,
   ImageIcon, ArrowUp, ArrowDown, Pencil,
-  Users, Link as LinkIcon, Plus as PlusIcon,
+  Users, Link as LinkIcon, Plus as PlusIcon, FileText,
 } from "lucide-react";
 
 const uploadImage = async (file) => {
@@ -55,6 +55,7 @@ export default function AdminEquipoPage() {
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState(EMPTY);
   const [uploading, setUploading] = useState(false);
+  const [uploadingCv, setUploadingCv] = useState(false);
 
   useEffect(() => { fetchData(); }, []);
 
@@ -82,6 +83,24 @@ export default function AdminEquipoPage() {
     } catch {
       Swal.fire({ icon: "error", title: "Error al subir", text: "Intenta nuevamente." });
     } finally { setUploading(false); }
+  };
+
+  const handleCv = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > 20 * 1024 * 1024) {
+      Swal.fire({ icon: "error", title: "Archivo muy grande", text: "Máximo 20 MB." });
+      return;
+    }
+    try {
+      setUploadingCv(true);
+      const r = ref(storage, `equipo/cv/${Date.now()}_${file.name}`);
+      await uploadBytes(r, file);
+      const url = await getDownloadURL(r);
+      setForm(p => ({ ...p, cv: url }));
+    } catch {
+      Swal.fire({ icon: "error", title: "Error al subir", text: "Intenta nuevamente." });
+    } finally { setUploadingCv(false); }
   };
 
   const moveItem = async (item, dir) => {
@@ -428,11 +447,33 @@ export default function AdminEquipoPage() {
                       </div>
                     </div>
                     <div>
-                      <label className="mb-1.5 block font-sans text-[10px] font-semibold uppercase tracking-wider text-text/60">CV (enlace)</label>
-                      <input type="url" value={form.cv}
-                        onChange={e => setForm(p => ({ ...p, cv: e.target.value }))}
-                        placeholder="Ej: https://drive.google.com/..."
-                        className="w-full rounded-sm border border-primary/10 bg-bg-alt px-4 py-2.5 font-sans text-sm text-text outline-none transition-all focus:border-accent focus:ring-1 focus:ring-accent/30 placeholder:text-text/30" />
+                      <label className="mb-1.5 block font-sans text-[10px] font-semibold uppercase tracking-wider text-text/60">CV (PDF)</label>
+                      <p className="mb-2 font-sans text-[10px] text-text/40">Sube el CV en formato PDF (máx. 20 MB).</p>
+                      {form.cv ? (
+                        <div className="flex items-center gap-3 rounded-sm border border-primary/10 bg-bg-alt p-3">
+                          <FileText size={16} className="text-accent shrink-0" />
+                          <a href={form.cv} target="_blank" rel="noopener noreferrer"
+                            className="flex-1 font-sans text-xs text-accent hover:underline truncate">
+                            {form.cv.split("/").pop() || "Ver CV"}
+                          </a>
+                          <button type="button" onClick={() => setForm(p => ({ ...p, cv: "" }))}
+                            className="rounded-sm bg-red-500 p-1.5 text-white hover:bg-red-600 transition-colors shrink-0">
+                            <Trash2 size={12} />
+                          </button>
+                        </div>
+                      ) : (
+                        <label className="flex cursor-pointer items-center gap-3 rounded-sm border-2 border-dashed border-primary/10 bg-bg-alt px-4 py-3 transition-all hover:border-accent">
+                          {uploadingCv ? (
+                            <div className="h-5 w-5 animate-spin rounded-sm border-[3px] border-accent border-t-transparent" />
+                          ) : (
+                            <Upload size={16} className="text-accent" />
+                          )}
+                          <span className="font-sans text-[10px] text-text/60">
+                            {uploadingCv ? "Subiendo..." : "Seleccionar PDF"}
+                          </span>
+                          <input type="file" accept=".pdf" onChange={handleCv} className="hidden" disabled={uploadingCv} />
+                        </label>
+                      )}
                     </div>
                     <div>
                       <label className="mb-1.5 block font-sans text-[10px] font-semibold uppercase tracking-wider text-text/60">Descripción</label>
@@ -530,7 +571,7 @@ export default function AdminEquipoPage() {
                   className="flex-1 rounded-sm border border-primary/10 bg-white px-6 py-3 font-sans text-sm font-semibold text-text/70 hover:bg-bg-alt transition-colors">
                   Cancelar
                 </button>
-                <button type="button" onClick={handleSave} disabled={uploading}
+                <button type="button" onClick={handleSave} disabled={uploading || uploadingCv}
                   className="flex flex-1 items-center justify-center gap-2 rounded-sm bg-accent px-6 py-3 font-sans text-sm font-bold text-primary shadow-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all">
                   <Save size={16} />
                   {editing ? "Actualizar" : "Crear"}

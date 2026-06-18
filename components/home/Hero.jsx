@@ -1,10 +1,20 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { ChevronLeft, ChevronRight, ArrowRight, Scale } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowRight, FileText, Newspaper, Scale } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { collection, query, orderBy, getDocs } from "firebase/firestore";
+import { collection, query, orderBy, limit, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import Link from "next/link";
+
+function slugify(text) {
+  return text.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
+}
+
+function buildSlug(item, collection) {
+  const title = collection === "publicaciones" ? item.titulo : item.titulo;
+  return `/${collection}/${slugify(title)}-${item.id.slice(0, 8)}`;
+}
 
 export default function Hero() {
   const [slides, setSlides] = useState([]);
@@ -13,20 +23,52 @@ export default function Hero() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchBanners = async () => {
+    const fetchData = async () => {
       try {
-        const q = query(collection(db, "banners"), orderBy("orden", "asc"));
-        const snap = await getDocs(q);
-        const items = snap.docs
+        const [banSnap, pubSnap, notSnap] = await Promise.all([
+          getDocs(query(collection(db, "banners"), orderBy("orden", "asc"))),
+          getDocs(query(collection(db, "publicaciones"), orderBy("createdAt", "desc"), limit(2))),
+          getDocs(query(collection(db, "noticias"), orderBy("createdAt", "desc"), limit(2))),
+        ]);
+
+        const banners = banSnap.docs
           .map(d => ({ id: d.id, ...d.data() }))
           .filter(b => b.activo !== false)
           .map(b => ({
-            id: b.id,
+            type: "banner",
             image: b.imagen,
             title: [b.titulo, b.tituloDestacado].filter(Boolean).join(" "),
             description: b.subtitulo || "",
-            cta: b.textoCta ? { text: b.textoCta, link: b.linkCta || "/contacto" } : null,
+            link: b.linkCta || "/contacto",
+            ctaText: b.textoCta || "Contáctenos",
+            icon: Scale,
           }));
+
+        const publicaciones = pubSnap.docs
+          .map(d => ({ id: d.id, ...d.data() }))
+          .filter(p => p.activo !== false)
+          .map(p => ({
+            type: "publicacion",
+            image: p.imagen || "/images/img1.jpg",
+            title: p.titulo,
+            description: p.descripcion || "",
+            link: buildSlug(p, "publicaciones"),
+            icon: FileText,
+          }));
+
+        const noticias = notSnap.docs
+          .map(d => ({ id: d.id, ...d.data() }))
+          .filter(n => n.activo !== false)
+          .map(n => ({
+            type: "noticia",
+            image: n.imagen || "/images/img1.jpg",
+            title: n.titulo,
+            description: n.descripcion || "",
+            link: buildSlug(n, "noticias"),
+            icon: Newspaper,
+          }));
+
+        const items = [...banners, ...publicaciones, ...noticias];
         setSlides(items);
       } catch {
         setSlides([]);
@@ -34,19 +76,20 @@ export default function Hero() {
         setLoading(false);
       }
     };
-    fetchBanners();
+    fetchData();
   }, []);
 
   const next = useCallback(() => setCurrent((c) => (c + 1) % slides.length), [slides.length]);
   const prev = useCallback(() => setCurrent((c) => (c - 1 + slides.length) % slides.length), [slides.length]);
 
   useEffect(() => {
-    if (paused) return;
+    if (paused || slides.length <= 1) return;
     const id = setInterval(next, 6000);
     return () => clearInterval(id);
-  }, [paused, next]);
+  }, [paused, next, slides.length]);
 
   const slide = slides[current];
+  const Icon = slide?.icon || FileText;
 
   if (loading) {
     return (
@@ -107,21 +150,32 @@ export default function Hero() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="w-full max-w-lg md:max-w-xl lg:max-w-2xl"
           >
+            <div className="flex items-center gap-2 md:gap-3 mb-3 md:mb-4">
+              <div className="flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full bg-accent/20">
+                <Icon className="h-4 w-4 md:h-5 md:w-5 text-accent" />
+              </div>
+              <span className="font-sans text-[8px] md:text-[10px] uppercase tracking-[0.2em] text-accent font-semibold">
+                {slide.type === "banner" ? "LBV Abogados" : slide.type === "publicacion" ? "Publicación" : "Noticia"}
+              </span>
+            </div>
+
             <h1 className="font-sans text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white mb-2 md:mb-3 drop-shadow-lg leading-tight">
               {slide.title}
             </h1>
 
-            <p className="font-sans text-[10px] sm:text-xs md:text-sm lg:text-base text-white/80 leading-relaxed mb-3 md:mb-4 drop-shadow-md max-w-lg">
-              {slide.description}
-            </p>
+            {slide.description && (
+              <p className="font-sans text-[10px] sm:text-xs md:text-sm lg:text-base text-white/80 leading-relaxed mb-3 md:mb-4 drop-shadow-md max-w-lg">
+                {slide.description}
+              </p>
+            )}
 
-            <a
-              href={slide.cta?.link || "/contacto"}
+            <Link
+              href={slide.link}
               className="inline-flex items-center gap-1.5 bg-accent text-primary px-4 md:px-6 py-2 md:py-2.5 rounded-sm font-sans text-[9px] md:text-[10px] lg:text-xs font-bold uppercase tracking-[0.12em] md:tracking-[0.15em] lg:tracking-[0.2em] transition-all duration-300 hover:bg-white active:scale-95 shadow-lg shadow-accent/30"
             >
-              {slide.cta?.text || "Contáctenos"}
+              {slide.ctaText || "Leer más"}
               <ArrowRight size={12} className="md:h-3.5 md:w-3.5" />
-            </a>
+            </Link>
           </motion.div>
         </AnimatePresence>
       </div>
@@ -143,7 +197,7 @@ export default function Hero() {
       </button>
 
       <div className="absolute bottom-6 md:bottom-10 left-4 sm:left-6 lg:left-8 z-20 flex items-center gap-2 md:gap-3">
-        {slides.map((_, i) => (
+        {slides.map((s, i) => (
           <button
             key={i}
             onClick={() => setCurrent(i)}

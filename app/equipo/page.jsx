@@ -143,16 +143,15 @@ export default function EquipoPage() {
               {filtrados.map((m, i) => (
                 <motion.div
                   key={m.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-80px" }}
-                  transition={{ duration: 0.5, ease: "easeOut", delay: i * 0.05 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, ease: "easeOut", delay: i * 0.05 }}
                 >
                   <Link
                     href={`/equipo/${m.slug}`}
-                    className="group block rounded-sm border border-primary/10 bg-white shadow-sm overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+                    className="group flex flex-col rounded-sm border border-primary/10 bg-white shadow-sm overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full"
                   >
-                    <div className="aspect-[4/5] overflow-hidden bg-bg-alt">
+                    <div className="aspect-[4/5] overflow-hidden bg-bg-alt shrink-0">
                       {m.foto ? (
                         <img src={m.foto} alt={m.nombre} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
                       ) : (
@@ -161,15 +160,17 @@ export default function EquipoPage() {
                         </div>
                       )}
                     </div>
-                    <div className="p-4 md:p-5">
-                      <h3 className="font-sans text-sm md:text-base font-bold text-primary group-hover:text-accent transition-colors">
-                        {m.nombre}
-                      </h3>
-                      {m.cargo && (
-                        <p className="font-sans text-[10px] md:text-xs text-text/50 mt-0.5">{m.cargo}</p>
-                      )}
+                    <div className="flex flex-1 flex-col justify-between p-4 md:p-5">
+                      <div>
+                        <h3 className="font-sans text-sm md:text-base font-bold text-primary group-hover:text-accent transition-colors">
+                          {m.nombre}
+                        </h3>
+                        {m.cargo && (
+                          <p className="font-sans text-[10px] md:text-xs text-text/50 mt-0.5">{m.cargo}</p>
+                        )}
+                      </div>
                       {m.especialidades.length > 0 && (
-                        <div className="flex flex-wrap gap-1 mt-2">
+                        <div className="flex flex-wrap gap-1 mt-3">
                           {m.especialidades.slice(0, 2).map(e => (
                             <span key={e} className="rounded-sm bg-accent/10 px-2 py-0.5 font-sans text-[7px] text-accent font-semibold uppercase tracking-wider">
                               {especialidades[e] || ""}

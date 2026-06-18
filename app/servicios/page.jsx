@@ -56,7 +56,7 @@ export default function ServiciosPage() {
     <>
       <PageHero
         title="Servicios"
-        subtitle="Conozca nuestras áreas de práctica y el alcance de nuestra asesoría legal especializada"
+        subtitle="Conozca nuestras áreas de especialización y los servicios legales que ponemos a su disposición para una atención integral, personalizada, eficiente y comprometida."
         bgImage="/images/img2.jpg"
       />
 
@@ -70,11 +70,8 @@ export default function ServiciosPage() {
             className="mb-10 md:mb-16 text-center"
           >
             <h2 className="font-sans text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary mt-2 leading-tight">
-              Áreas de práctica
+              Áreas de especialización
             </h2>
-            <p className="font-sans text-[10px] sm:text-xs md:text-sm text-text/60 max-w-xl mx-auto mt-3 leading-relaxed">
-              Contamos con un equipo multidisciplinario listo para brindarle la mejor asesoría en cada rama del derecho.
-            </p>
           </motion.div>
 
           {!loaded ? (

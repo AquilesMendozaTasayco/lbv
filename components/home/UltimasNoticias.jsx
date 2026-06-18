@@ -18,7 +18,7 @@ export default function UltimasNoticias() {
     const fetchData = async () => {
       try {
         const snap = await getDocs(
-          query(collection(db, "noticias"), orderBy("createdAt", "desc"), limit(3))
+          query(collection(db, "noticias"), orderBy("createdAt", "desc"), limit(2))
         );
         const list = snap.docs
           .map(d => ({ id: d.id, ...d.data() }))
@@ -46,8 +46,8 @@ export default function UltimasNoticias() {
             <span className="font-sans text-[8px] md:text-[10px] uppercase tracking-[0.2em] text-accent font-semibold">Novedades</span>
             <h2 className="font-sans text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary mt-2 leading-tight">Últimas Noticias</h2>
           </div>
-          <div className="grid gap-6 md:grid-cols-3">
-            {[1, 2, 3].map(i => (
+          <div className="grid gap-6 md:grid-cols-2">
+            {[1, 2].map(i => (
               <div key={i} className="rounded-sm border border-primary/10 bg-white animate-pulse">
                 <div className="h-44 bg-primary/5" />
                 <div className="p-5 space-y-3">
@@ -81,7 +81,7 @@ export default function UltimasNoticias() {
             <p className="font-sans text-[10px] text-text/30 mt-1">Pronto publicaremos novedades del estudio.</p>
           </div>
         ) : (
-          <div className="grid gap-6 md:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2">
             {items.map((noticia) => (
               <Link
                 key={noticia.id}

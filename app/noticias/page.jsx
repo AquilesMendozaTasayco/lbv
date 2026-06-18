@@ -42,27 +42,12 @@ export default function NoticiasPage() {
     <>
       <PageHero
         title="Noticias"
-        subtitle="Manténgase informado con las últimas novedades del estudio y del ámbito legal"
+        subtitle="Manténgase informado sobre las actividades de LBV Abogados y acceda a artículos, análisis y comentarios elaborados por nuestros profesionales."
         bgImage="/images/img6.jpg"
       />
 
       <section className="py-12 md:py-16 xl:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-            className="mb-10 md:mb-12 text-center"
-          >
-            <h2 className="font-sans text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary mt-2 leading-tight">
-              Noticias
-            </h2>
-            <p className="font-sans text-[10px] sm:text-xs md:text-sm text-text/60 max-w-xl mx-auto mt-3 leading-relaxed">
-              Entérese de las últimas novedades del estudio jurídico y del mundo legal.
-            </p>
-          </motion.div>
-
           {!loaded ? (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {Array.from({ length: 6 }).map((_, i) => (
@@ -86,10 +71,9 @@ export default function NoticiasPage() {
               {noticias.map((n, i) => (
                 <motion.div
                   key={n.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-80px" }}
-                  transition={{ duration: 0.5, ease: "easeOut", delay: i * 0.05 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, ease: "easeOut", delay: i * 0.05 }}
                 >
                   <Link
                     href={`/noticias/${n.slug}`}

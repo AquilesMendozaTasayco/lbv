@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowLeft, Calendar, Building, FileText } from "lucide-react";
+import { ArrowLeft, Calendar, Building, FileText, Download, ExternalLink } from "lucide-react";
 import { collection, query, orderBy, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import PageHero from "@/components/ui/PageHero";
@@ -116,6 +116,40 @@ export default function PublicacionDetailPage() {
           </motion.div>
         </div>
       </article>
+
+      {pub.archivoUrl && (
+        <section className="border-t border-primary/10 bg-bg-alt py-10 md:py-14">
+          <div className="mx-auto max-w-3xl px-4 sm:px-6 text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-accent/10">
+                <Download size={24} className="text-accent" />
+              </div>
+              <h3 className="font-sans text-lg md:text-xl font-bold text-primary mb-2">
+                Fuente oficial / Descarga
+              </h3>
+              <p className="font-sans text-xs md:text-sm text-text/60 mb-6 max-w-md mx-auto leading-relaxed">
+                Acceda al documento original o fuente oficial de esta publicación.
+              </p>
+              <a
+                href={pub.archivoUrl}
+                target={pub.archivoUrl.endsWith(".pdf") ? "_blank" : "_blank"}
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-accent text-primary px-6 md:px-8 py-3 md:py-3.5 rounded-sm font-sans text-[9px] md:text-[10px] lg:text-xs font-bold uppercase tracking-[0.12em] md:tracking-[0.15em] lg:tracking-[0.2em] transition-all duration-300 hover:bg-primary hover:text-white active:scale-95 shadow-md"
+              >
+                {pub.archivoUrl.endsWith(".pdf") ? (
+                  <><Download size={14} /> Descargar PDF</>
+                ) : (
+                  <><ExternalLink size={14} /> Ver fuente oficial</>
+                )}
+              </a>
+            </motion.div>
+          </div>
+        </section>
+      )}
 
       <section className="relative overflow-hidden bg-primary py-14 md:py-20">
         <div className="absolute inset-0 bg-cover bg-center bg-no-repeat"

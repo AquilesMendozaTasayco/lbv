@@ -13,7 +13,7 @@ import RichEditor from "@/components/editor/RichEditor";
 import {
   Plus, Trash2, X, Save, Upload, Eye, EyeOff,
   ImageIcon, ArrowUp, ArrowDown, Pencil,
-  FileText, Calendar,
+  FileText, Calendar, Link, Download,
 } from "lucide-react";
 
 const uploadImage = async (file) => {
@@ -40,6 +40,7 @@ const EMPTY = {
   contenido: "",
   imagen: "",
   especialidad: "",
+  archivoUrl: "",
   activo: true,
   orden: 0,
 };
@@ -68,6 +69,26 @@ export default function AdminPublicacionesPage() {
     } catch (e) {
       Swal.fire({ icon: "error", title: "Error al cargar", text: e.message });
     } finally { setLoading(false); }
+  };
+
+  const [uploadingArchivo, setUploadingArchivo] = useState(false);
+
+  const uploadFile = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > 20 * 1024 * 1024) {
+      Swal.fire({ icon: "error", title: "Archivo muy grande", text: "Máximo 20 MB." });
+      return;
+    }
+    try {
+      setUploadingArchivo(true);
+      const r = ref(storage, `publicaciones/archivos/${Date.now()}_${file.name}`);
+      await uploadBytes(r, file);
+      const url = await getDownloadURL(r);
+      setForm(p => ({ ...p, archivoUrl: url }));
+    } catch {
+      Swal.fire({ icon: "error", title: "Error al subir", text: "Intenta nuevamente." });
+    } finally { setUploadingArchivo(false); }
   };
 
   const handleImage = async (e) => {
@@ -110,6 +131,7 @@ export default function AdminPublicacionesPage() {
       contenido: item.contenido || "",
       imagen: item.imagen || "",
       especialidad: item.especialidad || "",
+      archivoUrl: item.archivoUrl || "",
       activo: item.activo !== false,
       orden: item.orden ?? 0,
     });
@@ -129,6 +151,7 @@ export default function AdminPublicacionesPage() {
         contenido: form.contenido,
         imagen: form.imagen,
         especialidad: form.especialidad,
+        archivoUrl: form.archivoUrl,
         activo: form.activo,
         orden: form.orden,
       };
@@ -418,6 +441,54 @@ export default function AdminPublicacionesPage() {
                     onChange={(html) => setForm(p => ({ ...p, contenido: html }))}
                     uploadImage={uploadImage}
                   />
+                </div>
+
+                <div>
+                  <div className="flex items-center gap-2 border-b border-primary/10 pb-3">
+                    <Download size={15} className="text-accent" />
+                    <h3 className="font-sans text-[10px] font-semibold uppercase tracking-widest text-text/60">Archivo / Fuente oficial</h3>
+                  </div>
+                  <p className="mt-1 font-sans text-[10px] text-text/40 mb-4">
+                    Opcional: suba un PDF o ingrese un enlace externo para que los usuarios puedan descargar o acceder a la fuente oficial.
+                  </p>
+                  <div className="mt-4 space-y-4">
+                    {form.archivoUrl ? (
+                      <div className="flex items-center gap-3 rounded-sm border border-primary/10 bg-bg-alt p-3">
+                        <FileText size={16} className="text-accent shrink-0" />
+                        <span className="flex-1 font-sans text-xs text-text/70 truncate">{form.archivoUrl}</span>
+                        <button type="button" onClick={() => setForm(p => ({ ...p, archivoUrl: "" }))}
+                          className="rounded-sm bg-red-500 p-1.5 text-white hover:bg-red-600 transition-colors shrink-0">
+                          <Trash2 size={12} />
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col gap-3">
+                        <label className="flex cursor-pointer items-center gap-3 rounded-sm border-2 border-dashed border-primary/10 bg-bg-alt px-4 py-3 transition-all hover:border-accent">
+                          {uploadingArchivo ? (
+                            <div className="h-5 w-5 animate-spin rounded-sm border-[3px] border-accent border-t-transparent" />
+                          ) : (
+                            <Upload size={16} className="text-accent" />
+                          )}
+                          <span className="font-sans text-[10px] text-text/60">
+                            {uploadingArchivo ? "Subiendo..." : "Subir PDF (máx. 20 MB)"}
+                          </span>
+                          <input type="file" accept=".pdf" onChange={uploadFile} className="hidden" disabled={uploadingArchivo} />
+                        </label>
+                        <div className="flex items-center gap-2">
+                          <div className="h-px flex-1 bg-primary/10" />
+                          <span className="font-sans text-[8px] uppercase tracking-wider text-text/30">o</span>
+                          <div className="h-px flex-1 bg-primary/10" />
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Link size={14} className="text-text/30 shrink-0" />
+                          <input type="url" value={form.archivoUrl}
+                            onChange={e => setForm(p => ({ ...p, archivoUrl: e.target.value }))}
+                            placeholder="https://fuente-oficial.com/documento"
+                            className="w-full rounded-sm border border-primary/10 bg-bg-alt px-3 py-2 font-sans text-xs text-text outline-none transition-all focus:border-accent focus:ring-1 focus:ring-accent/30 placeholder:text-text/30" />
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 <div>

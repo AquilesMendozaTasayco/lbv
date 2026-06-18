@@ -68,27 +68,12 @@ export default function PublicacionesPage() {
     <>
       <PageHero
         title="Publicaciones LBV"
-        subtitle="Artículos, guías y análisis jurídicos elaborados por nuestro equipo de especialistas"
+        subtitle="Información relevante sobre el derecho en el Perú y el mundo. Normas legales, resoluciones ministeriales, jurisprudencia y otras disposiciones de interés."
         bgImage="/images/img6.jpg"
       />
 
       <section className="py-12 md:py-16 xl:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-            className="mb-10 md:mb-12 text-center"
-          >
-            <h2 className="font-sans text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary mt-2 leading-tight">
-              Publicaciones
-            </h2>
-            <p className="font-sans text-[10px] sm:text-xs md:text-sm text-text/60 max-w-xl mx-auto mt-3 leading-relaxed">
-              Contenido legal de interés elaborado por nuestros especialistas.
-            </p>
-          </motion.div>
-
           {especialidadesList.length > 0 && (
             <div className="flex flex-wrap justify-center gap-2 mb-10">
               <button

@@ -108,7 +108,7 @@ export default function NosotrosPage() {
     <>
       <PageHero
         title="Nosotros"
-        subtitle="Conozca más sobre LBV Abogados, nuestra historia y nuestro equipo"
+        subtitle="Conozca más sobre LBV Abogados, nuestra historia, misión y visión de nuestra institución y los valores que nos guían."
         bgImage="/images/img7.jpg"
       />
 

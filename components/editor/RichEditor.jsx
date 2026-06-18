@@ -1,12 +1,13 @@
 "use client";
 
 import { useEditor, EditorContent } from "@tiptap/react";
+import { NodeSelection } from "@tiptap/pm/state";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import {
   Bold, Italic, List, ListOrdered, Heading1, Heading2,
-  Quote, Undo, Redo, ImageIcon, Pilcrow, Loader2,
+  Quote, Undo, Redo, ImageIcon, Pilcrow, Loader2, Trash2,
 } from "lucide-react";
 
 const MenuButton = ({ onClick, active, children }) => (
@@ -23,6 +24,8 @@ const MenuButton = ({ onClick, active, children }) => (
 
 export default function RichEditor({ content, onChange, uploadImage }) {
   const [uploading, setUploading] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const editorRef = useRef(null);
 
   const editor = useEditor({
     extensions: [
@@ -38,12 +41,24 @@ export default function RichEditor({ content, onChange, uploadImage }) {
     onUpdate: ({ editor }) => {
       onChange?.(editor.getHTML());
     },
+    onSelectionUpdate: ({ editor }) => {
+      const { selection } = editor.state;
+      if (selection instanceof NodeSelection && selection.node.type.name === "image") {
+        setSelectedImage(selection.node.attrs.src);
+      } else {
+        setSelectedImage(null);
+      }
+    },
     editorProps: {
       attributes: {
         class: "prose prose-sm max-w-none focus:outline-none min-h-[300px] px-4 py-3 font-sans text-sm text-text",
       },
     },
   });
+
+  useEffect(() => {
+    if (editor) editorRef.current = editor;
+  }, [editor]);
 
   const addImage = useCallback(async () => {
     const input = document.createElement("input");
@@ -75,6 +90,11 @@ export default function RichEditor({ content, onChange, uploadImage }) {
     };
     input.click();
   }, [editor, uploadImage]);
+
+  const deleteSelectedImage = useCallback(() => {
+    editor?.chain().focus().deleteSelection().run();
+    setSelectedImage(null);
+  }, [editor]);
 
   if (!editor) return null;
 
@@ -112,6 +132,11 @@ export default function RichEditor({ content, onChange, uploadImage }) {
           {uploading ? <Loader2 size={14} className="animate-spin" /> : <ImageIcon size={14} />}
         </MenuButton>
         <span className="mx-1 h-5 w-px bg-primary/10" />
+        {selectedImage && (
+          <MenuButton onClick={deleteSelectedImage} active={false}>
+            <Trash2 size={14} className="text-red-500" />
+          </MenuButton>
+        )}
         <MenuButton onClick={() => editor.chain().focus().undo().run()}>
           <Undo size={14} />
         </MenuButton>
@@ -120,6 +145,10 @@ export default function RichEditor({ content, onChange, uploadImage }) {
         </MenuButton>
       </div>
       <EditorContent editor={editor} />
+      <p className="px-4 py-2 font-sans text-[9px] text-text/30 border-t border-primary/5">
+        Seleccione una imagen en el contenido y presione el botón{" "}
+        <Trash2 size={10} className="inline text-red-400" /> para eliminarla
+      </p>
     </div>
   );
 }
