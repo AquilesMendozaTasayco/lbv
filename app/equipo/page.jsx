@@ -7,6 +7,7 @@ import { Users, Search, Building } from "lucide-react";
 import { collection, query, orderBy, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import PageHero from "@/components/ui/PageHero";
+import UneteAlEquipo from "@/components/UneteAlEquipo";
 
 function slugify(text) {
   return text.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
@@ -191,6 +192,8 @@ export default function EquipoPage() {
           )}
         </div>
       </section>
+
+      <UneteAlEquipo />
     </>
   );
 }
