@@ -81,7 +81,7 @@ export default function NoticiasPage() {
                   >
                     {n.imagen ? (
                       <div className="h-48 overflow-hidden">
-                        <img src={n.imagen} alt={n.titulo} className="h-full w-full object-contain bg-bg-alt transition-transform duration-500 group-hover:scale-105" />
+                        <img src={n.imagen} alt={n.titulo} loading="lazy" className="h-full w-full object-contain bg-bg-alt transition-transform duration-500 group-hover:scale-105" />
                       </div>
                     ) : (
                       <div className="flex h-48 items-center justify-center bg-bg-alt">

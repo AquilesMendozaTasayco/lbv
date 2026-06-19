@@ -132,7 +132,7 @@ export default function PublicacionesPage() {
                   >
                     {pub.imagen ? (
                       <div className="h-48 overflow-hidden">
-                        <img src={pub.imagen} alt={pub.titulo} className="h-full w-full object-contain bg-bg-alt transition-transform duration-500 group-hover:scale-105" />
+                        <img src={pub.imagen} alt={pub.titulo} loading="lazy" className="h-full w-full object-contain bg-bg-alt transition-transform duration-500 group-hover:scale-105" />
                       </div>
                     ) : (
                       <div className="flex h-48 items-center justify-center bg-bg-alt">

@@ -17,7 +17,6 @@ export default function AbogadoDetailPage() {
   const params = useParams();
   const [abogado, setAbogado] = useState(null);
   const [especialidades, setEspecialidades] = useState({});
-  const [recomendados, setRecomendados] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -43,7 +42,6 @@ export default function AbogadoDetailPage() {
         const found = todos.find(m => m.slug === params.slug);
         if (found) {
           setAbogado(found);
-          setRecomendados(todos.filter(m => m.id !== found.id).slice(0, 4));
         }
       } catch { /* */ }
       finally { setLoaded(true); }
@@ -185,58 +183,6 @@ export default function AbogadoDetailPage() {
         </div>
       </section>
 
-      {recomendados.length > 0 && (
-        <section className="bg-bg-alt py-12 md:py-16 border-t border-primary/10">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.5 }}
-              className="mb-8 md:mb-10"
-            >
-              <h2 className="font-sans text-lg md:text-xl font-bold text-primary">
-                Otros miembros del equipo
-              </h2>
-            </motion.div>
-
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {recomendados.map((m, i) => (
-                <motion.div
-                  key={m.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-80px" }}
-                  transition={{ duration: 0.4, delay: i * 0.08 }}
-                >
-                  <Link
-                    href={`/equipo/${m.slug}`}
-                    className="group block rounded-sm border border-primary/10 bg-white shadow-sm overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
-                  >
-                    <div className="aspect-[4/5] overflow-hidden bg-bg-alt">
-                      {m.foto ? (
-                        <img src={m.foto} alt={m.nombre} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                      ) : (
-                        <div className="flex h-full items-center justify-center">
-                          <Users size={36} className="text-text/20" />
-                        </div>
-                      )}
-                    </div>
-                    <div className="p-4">
-                      <h3 className="font-sans text-xs md:text-sm font-bold text-primary group-hover:text-accent transition-colors">
-                        {m.nombre}
-                      </h3>
-                      {m.cargo && (
-                        <p className="font-sans text-[9px] text-text/50 mt-0.5">{m.cargo}</p>
-                      )}
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
     </>
   );
 }
