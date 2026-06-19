@@ -7,6 +7,7 @@ import { Menu, X, Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { collection, query, orderBy, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { getCached, setCache } from "@/lib/cache";
 import SearchOverlay from "./SearchOverlay";
 
 function slugify(text) {
@@ -49,6 +50,8 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
+    const cached = getCached("navbar_servicios");
+    if (cached) { setServiciosSub(cached); return; }
     const fetchServicios = async () => {
       try {
         const q = query(collection(db, "servicios"), orderBy("orden", "asc"));
@@ -58,6 +61,7 @@ export default function Navbar() {
           .filter(s => s.activo !== false)
           .map(s => ({ href: "/servicios/" + slugify(s.titulo), label: s.titulo }));
         setServiciosSub(items);
+        setCache("navbar_servicios", items);
       } catch { /* */ }
     };
     fetchServicios();

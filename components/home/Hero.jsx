@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight, ArrowRight, FileText, Newspaper, Scale } fro
 import { motion, AnimatePresence } from "framer-motion";
 import { collection, query, orderBy, limit, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { getCached, setCache } from "@/lib/cache";
 import Link from "next/link";
 
 function slugify(text) {
@@ -23,6 +24,8 @@ export default function Hero() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const cached = getCached("hero_slides");
+    if (cached) { setSlides(cached); setLoading(false); return; }
     const fetchData = async () => {
       try {
         const [banSnap, pubSnap, notSnap] = await Promise.all([
@@ -70,6 +73,7 @@ export default function Hero() {
 
         const items = [...banners, ...publicaciones, ...noticias];
         setSlides(items);
+        setCache("hero_slides", items);
       } catch {
         setSlides([]);
       } finally {

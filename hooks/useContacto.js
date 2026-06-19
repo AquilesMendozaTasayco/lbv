@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { getCached, setCache } from "@/lib/cache";
 
 const defaults = {
   direccion: "Av. Principal 1234, San Isidro",
@@ -24,12 +25,14 @@ export function useContacto() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const cached = getCached("contacto");
+    if (cached) { setData(cached); setLoading(false); return; }
     const fetch = async () => {
       try {
         const snap = await getDoc(doc(db, "config", "contacto"));
         if (snap.exists()) {
           const d = snap.data();
-          setData({
+          const result = {
             direccion: d.direccion || defaults.direccion,
             ciudad: d.ciudad || defaults.ciudad,
             telefono: d.telefono || defaults.telefono,
@@ -42,7 +45,9 @@ export function useContacto() {
             linkedin: d.linkedin || defaults.linkedin,
             instagram: d.instagram || defaults.instagram,
             facebook: d.facebook || defaults.facebook,
-          });
+          };
+          setData(result);
+          setCache("contacto", result);
         }
       } catch { /* usa defaults */ }
       finally { setLoading(false); }
