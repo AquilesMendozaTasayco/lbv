@@ -9,6 +9,7 @@ import {
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "@/lib/firebase";
 import Swal from "sweetalert2";
+import { convertToWebp } from "@/lib/webp";
 import RichEditor from "@/components/editor/RichEditor";
 import {
   Plus, Trash2, X, Save, Upload, Eye, EyeOff,
@@ -69,7 +70,8 @@ export default function AdminNoticiasPage() {
     if (!file || !validateImage(file)) return;
     try {
       setUploading(true);
-      const url = await uploadImage(file);
+      const webpFile = await convertToWebp(file);
+      const url = await uploadImage(webpFile);
       setForm(p => ({ ...p, imagen: url }));
     } catch {
       Swal.fire({ icon: "error", title: "Error al subir", text: "Intenta nuevamente." });
