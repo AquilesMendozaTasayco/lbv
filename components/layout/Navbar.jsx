@@ -5,7 +5,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { collection, query, orderBy, getDocs } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 import SearchOverlay from "./SearchOverlay";
+
+function slugify(text) {
+  return text.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
+}
 
 const links = [
   { href: "/", label: "Inicio" },
@@ -34,11 +40,27 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [serviciosSub, setServiciosSub] = useState([]);
   const pathname = usePathname();
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const fetchServicios = async () => {
+      try {
+        const q = query(collection(db, "servicios"), orderBy("orden", "asc"));
+        const snap = await getDocs(q);
+        const items = snap.docs
+          .map(d => d.data())
+          .filter(s => s.activo !== false)
+          .map(s => ({ href: "/servicios/" + slugify(s.titulo), label: s.titulo }));
+        setServiciosSub(items);
+      } catch { /* */ }
+    };
+    fetchServicios();
   }, []);
 
   const solid = scrolled;
@@ -83,6 +105,7 @@ export default function Navbar() {
           </li>
           {links.map(({ href, label, subItems }) => {
             const isActive = pathname === href || pathname.startsWith(href + "/");
+            const items = href === "/servicios" && serviciosSub.length > 0 ? serviciosSub : subItems;
             return (
               <li key={href} className="group relative">
                 <Link
@@ -98,10 +121,10 @@ export default function Navbar() {
                     }`}
                   />
                 </Link>
-                {subItems && (
+                {items && (
                   <div className="pointer-events-none absolute left-0 top-full pt-2 opacity-0 transition-all duration-200 group-hover:pointer-events-auto group-hover:opacity-100">
                     <div className="min-w-[180px] rounded-sm bg-primary border border-white/10 shadow-xl shadow-black/30">
-                      {subItems.map(sub => (
+                      {items.map(sub => (
                         <Link
                           key={sub.href}
                           href={sub.href}
@@ -143,6 +166,7 @@ export default function Navbar() {
               </li>
               {links.map(({ href, label, subItems }) => {
                 const isActive = pathname === href || pathname.startsWith(href + "/");
+                const items = href === "/servicios" && serviciosSub.length > 0 ? serviciosSub : subItems;
                 return (
                   <li key={href}>
                     <Link
@@ -154,9 +178,9 @@ export default function Navbar() {
                     >
                       {label}
                     </Link>
-                    {subItems && (
+                    {items && (
                       <div className="ml-3 mt-1 space-y-1 border-l border-white/10 pl-3">
-                        {subItems.map(sub => (
+                        {items.map(sub => (
                           <Link
                             key={sub.href}
                             href={sub.href}
