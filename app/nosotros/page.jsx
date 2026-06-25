@@ -6,8 +6,6 @@ import { motion } from "framer-motion";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import PageHero from "@/components/ui/PageHero";
-import UneteAlEquipo from "@/components/UneteAlEquipo";
-
 const slides = [
   "/images/img6.jpg",
   "/images/img7.jpg",
@@ -229,7 +227,6 @@ export default function NosotrosPage() {
         </div>
       </section>
 
-      <UneteAlEquipo />
     </>
   );
 }
