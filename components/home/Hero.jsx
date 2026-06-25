@@ -1,7 +1,9 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { ChevronLeft, ChevronRight, ArrowRight, FileText, Newspaper, Scale } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowRight, FileText, Newspaper, Scale, Building } from "lucide-react";
+
+const ICON_MAP = { Scale, FileText, Newspaper, Building };
 import { motion, AnimatePresence } from "framer-motion";
 import { collection, query, orderBy, limit, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
@@ -44,7 +46,7 @@ export default function Hero() {
             description: b.subtitulo || "",
             link: b.linkCta || "/contacto",
             ctaText: b.textoCta || "Contáctenos",
-            icon: Scale,
+            icon: "Scale",
           }));
 
         const publicaciones = pubSnap.docs
@@ -56,7 +58,7 @@ export default function Hero() {
             title: p.titulo,
             description: p.descripcion || "",
             link: buildSlug(p, "publicaciones"),
-            icon: FileText,
+            icon: "FileText",
           }));
 
         const noticias = notSnap.docs
@@ -68,7 +70,7 @@ export default function Hero() {
             title: n.titulo,
             description: n.descripcion || "",
             link: buildSlug(n, "noticias"),
-            icon: Newspaper,
+            icon: "Newspaper",
           }));
 
         const items = [...banners, ...publicaciones, ...noticias];
@@ -93,7 +95,7 @@ export default function Hero() {
   }, [paused, next, slides.length]);
 
   const slide = slides[current];
-  const Icon = slide?.icon || FileText;
+  const Icon = ICON_MAP[slide?.icon] || FileText;
 
   if (loading) {
     return (
